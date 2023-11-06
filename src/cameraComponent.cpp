@@ -32,10 +32,10 @@ void CameraComponent::draw(Shader &shader)
 {
      
     //we dont want to draw
-    if(!shouldDraw)return;
+    // if(!shouldDraw)return;
 
-    setViewShader(shader);
-    setProjectionShader(shader);
+    // setViewShader(shader);
+    // setProjectionShader(shader);
 
 }
 
@@ -45,6 +45,13 @@ void CameraComponent::update(float deltaTime)
  
     
 
+}
+
+void CameraComponent::drawComponent(Shader &shader)
+{
+
+    setViewShader(shader);
+    setProjectionShader(shader);
 }
 
 void CameraComponent::setViewShader(Shader &shader)

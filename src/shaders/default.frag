@@ -4,20 +4,20 @@
 out vec4 FragColor;
 
 
+// Imports the current position from the Vertex Shader
+in vec3 position;
+// Imports the normal from the Vertex Shader
+in vec3 Normal;
 // Imports the color from the Vertex Shader
 in vec3 color;
 // Imports the texture coordinates from the Vertex Shader
 in vec2 uv_coordinates_tex;
-// Imports the normal from the Vertex Shader
-in vec3 Normal;
-// Imports the current position from the Vertex Shader
-in vec3 position;
 
 // Gets the Texture Unit from the main function
-uniform sampler2D tex0;
+uniform sampler2D diffuse0;
 
 
-uniform sampler2D tex1;
+uniform sampler2D specular0;
 
 
 // Gets the color of the light from the main function
@@ -68,7 +68,7 @@ vec4 pointLight()
 	float phong = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
 	float specular = phong * specularLight;
 
-	return (texture(tex0, uv_coordinates_tex) * (lambert * inten + ambient) + texture(tex1, uv_coordinates_tex).r * specular * inten) * lightColor;
+	return (texture(diffuse0, uv_coordinates_tex) * (lambert * inten + ambient) + texture(specular0, uv_coordinates_tex).r * specular * inten) * lightColor;
 }
 
 
@@ -103,7 +103,7 @@ vec4 spotLight()
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
 	float inten = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
-	return (texture(tex0, uv_coordinates_tex) * (diffuse * inten + ambient) + texture(tex1, uv_coordinates_tex).r * specular * inten) * lightColor;
+	return (texture(diffuse0, uv_coordinates_tex) * (diffuse * inten + ambient) + texture(specular0, uv_coordinates_tex).r * specular * inten) * lightColor;
 
 }
 
@@ -116,3 +116,6 @@ void main()
 	//FragColor = spotLight();
 
 }
+
+
+

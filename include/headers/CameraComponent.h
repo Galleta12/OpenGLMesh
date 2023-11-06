@@ -43,7 +43,7 @@ class CameraComponent : public Component{
         void draw(Shader& shader) override;
         void update(float deltaTime) override; 
         //for the orthographic as well
-
+        void drawComponent(Shader& shader);
     
         void setViewShader(Shader& shader);
         

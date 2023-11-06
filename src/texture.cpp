@@ -1,72 +1,108 @@
 #include"Texture.h"
 
-
-
-Texture::Texture(const char* image, GLenum texType, GLuint slot, GLenum format, GLenum pixelType)
+Texture::Texture(const char* image, const char* texType, GLuint slot)
 {
-	// Assigns the type of the texture to the texture object
-	
+	// Assigns the type of the texture ot the texture object
 	type = texType;
 
 	// Stores the width, height, and the number of color channels of the image
 	int widthImg, heightImg, numColCh;
-	//since stb store the coordinates from top to buttom and gl from bottom to top
+	// Flips the image so it appears right side up
 	stbi_set_flip_vertically_on_load(true);
-	//store the image in bytes
+	// Reads the image from a file and stores it in bytes
 	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
 
-	//create an opengl gl texture
+	// Generates an OpenGL texture object
 	glGenTextures(1, &ID);
-	
-	// assign it to a texture unit (slot)
-	//add multiple texture
+	// Assigns the texture to a Texture Unit
 	glActiveTexture(GL_TEXTURE0 + slot);
-	
 	unit = slot;
-	glBindTexture(texType, ID);
+	glBindTexture(GL_TEXTURE_2D, ID);
 
-	
-	//paramters for rendering the image
-	//this is based if we want it smaller or not
-	glTexParameteri(texType, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-	glTexParameteri(texType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	// Configures the type of algorithm that is used to make the image smaller or bigger
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	// configure for the tex if it allow repetition
-	glTexParameteri(texType, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(texType, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// Configures the way the texture repeats (if it does at all)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	
-	// assign image to open gl object
-	glTexImage2D(texType, 0, GL_RGBA, widthImg, heightImg, 0, format, pixelType, bytes);
-	//generate mipmax of the texture array
-	glGenerateMipmap(texType);
+	// Extra lines in case you choose to use GL_CLAMP_TO_BORDER
+	// float flatColor[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	// glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, flatColor);
 
-	// free the image data
+	// Check what type of color channels the texture has and load it accordingly
+	if (numColCh == 4)
+		glTexImage2D
+		(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			widthImg,
+			heightImg,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			bytes
+		);
+	else if (numColCh == 3)
+		glTexImage2D
+		(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			widthImg,
+			heightImg,
+			0,
+			GL_RGB,
+			GL_UNSIGNED_BYTE,
+			bytes
+		);
+	else if (numColCh == 1)
+		glTexImage2D
+		(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			widthImg,
+			heightImg,
+			0,
+			GL_RED,
+			GL_UNSIGNED_BYTE,
+			bytes
+		);
+	else
+		throw std::invalid_argument("Automatic Texture type recognition failed");
+
+	// Generates MipMaps
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	// Deletes the image data as it is already in the OpenGL Texture object
 	stbi_image_free(bytes);
 
-	// Unbinds the OpenGL Texture to dont be modified accidentally
-	glBindTexture(texType, 0);
+	// Unbinds the OpenGL Texture object so that it can't accidentally be modified
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture::texUnit(Shader& shader, const char* uniform, GLuint unit)
 {
-	// this is saved on the shader with the name of the texture
+	// Gets the location of the uniform
 	GLuint texUni = glGetUniformLocation(shader.ID, uniform);
-	//active shader for setting up the values
+	// Shader needs to be activated before changing the value of a uniform
 	shader.use();
-	// set the values on the unifor shader variable
+	// Sets the value of the uniform
 	glUniform1i(texUni, unit);
 }
 
 void Texture::Bind()
 {
 	glActiveTexture(GL_TEXTURE0 + unit);
-	glBindTexture(type, ID);
+	glBindTexture(GL_TEXTURE_2D, ID);
 }
 
 void Texture::Unbind()
 {
-	glBindTexture(type, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture::Delete()

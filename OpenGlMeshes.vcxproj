@@ -178,6 +178,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dependencies\include\json\json.h" />
     <ClInclude Include="include\headers\Camera.h" />
     <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\Components.h" />
@@ -186,10 +187,12 @@
     <ClInclude Include="include\headers\Game.h" />
     <ClInclude Include="include\headers\IncludesForMath.h" />
     <ClInclude Include="include\headers\MainCamera.h" />
+    <ClInclude Include="include\headers\Model.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
     <ClInclude Include="include\headers\VAO.h" />
     <ClInclude Include="include\headers\VBO.h" />
+    <ClInclude Include="include\headers\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cameraComponent.cpp" />
@@ -200,6 +203,8 @@
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\mainCamera.cpp" />
+    <ClCompile Include="src\mesh.cpp" />
+    <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\texture.cpp" />
@@ -211,6 +216,10 @@
     <Image Include="..\..\LastAssigmentPlease\OpenGL3DSimpleMaze\planksSpec.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="crow-outline\scene.bin" />
+    <None Include="crow\scene.bin" />
+    <None Include="map\scene.bin" />
+    <None Include="scrollModel\scene.bin" />
     <None Include="src\shaders\default.frag" />
     <None Include="src\shaders\default.vert" />
     <None Include="src\shaders\light.frag" />

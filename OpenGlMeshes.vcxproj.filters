@@ -37,6 +37,9 @@
     <ClInclude Include="include\headers\Components.h" />
     <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\MainCamera.h" />
+    <ClInclude Include="include\headers\Mesh.h" />
+    <ClInclude Include="dependencies\include\json\json.h" />
+    <ClInclude Include="include\headers\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -72,6 +75,8 @@
     <ClCompile Include="src\ecs.cpp" />
     <ClCompile Include="src\cameraComponent.cpp" />
     <ClCompile Include="src\mainCamera.cpp" />
+    <ClCompile Include="src\mesh.cpp" />
+    <ClCompile Include="src\model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\LastAssigmentPlease\OpenGL3DSimpleMaze\planks.png" />
@@ -82,5 +87,9 @@
     <None Include="src\shaders\default.frag" />
     <None Include="src\shaders\light.frag" />
     <None Include="src\shaders\light.vert" />
+    <None Include="scrollModel\scene.bin" />
+    <None Include="crow\scene.bin" />
+    <None Include="crow-outline\scene.bin" />
+    <None Include="map\scene.bin" />
   </ItemGroup>
 </Project>
