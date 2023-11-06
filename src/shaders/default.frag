@@ -81,15 +81,15 @@ vec4 spotLight()
 
 	
 	// controls how big the area that is lit up is
-	float outerCone = 0.90f;
-	float innerCone = 0.95f;
+	float outerCone = 0.80f;
+	float innerCone = 0.85f;
 
 	// ambient lighting
 	float ambient = 0.20f;
 
 	// diffuse lighting
 	vec3 normal = normalize(Normal);
-	vec3 lightDirection = normalize(lightPos - position);
+	vec3 lightDirection = normalize(u_eye_position - position);
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
 	// specular lighting
@@ -112,8 +112,8 @@ vec4 spotLight()
 
 void main()
 {
-	FragColor = pointLight();
-	//FragColor = spotLight();
+	//FragColor = pointLight();
+	FragColor = spotLight();
 
 }
 

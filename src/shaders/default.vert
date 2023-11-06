@@ -41,20 +41,20 @@ void main()
 {
 	
 	// calculates current position in global space
-	//vec3 global_position= vec3(model * vec4(aPos, 1.0f));
-	vec3 global_position= vec3(model * translation * -rotation * scale * vec4(aPos, 1.0f));
+	vec3 global_position= vec3(model * vec4(aPos, 1.0f));
 
+	Normal = vec3(model * vec4(aNormal, 1.0f));
+	
+	color = aColor;
+	
+	uv_coordinates_tex = mat2(0.0, -1.0, 1.0, 0.0) * aTex;
+	
 	//eye coordinates
 	position = vec3(u_view_matrix *vec4(global_position, 1.0f));
-	
 	
 	//in clip space
 	gl_Position = u_projection_matrix * vec4(position, 1.0);
 
-	// Assigns the colors from the Vertex Data to "color"
-	color = aColor;
-	// Assigns the texture coordinates from the Vertex Data to "texCoord"
-	uv_coordinates_tex = mat2(0.0, -1.0, 1.0, 0.0) * aTex;
-	// Assigns the normal from the Vertex Data to "Normal"
-	Normal = vec3(model * vec4(aNormal, 1.0f));
+	
+	
 }

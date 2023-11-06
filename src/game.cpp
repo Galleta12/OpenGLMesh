@@ -15,7 +15,7 @@ namespace fs = std::experimental::filesystem;
 #include "Components.h"
 
 #include"Model.h"
-
+#include "Mesh.h"
 #include "MainCamera.h"
 //#include"Camera.h"
 
@@ -51,7 +51,49 @@ Manager manager;
 
 // auto &floorEntity(manager.addEntity());
 // auto &lightEntity(manager.addEntity());
+// Vertices coordinates
+Vertex vertices[] =
+{ //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
+	Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+	Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+	Vertex{glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+	Vertex{glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
+};
 
+// Indices for vertices order
+GLuint indices[] =
+{
+	0, 1, 2,
+	0, 2, 3
+};
+
+Vertex lightVertices[] =
+{ //     COORDINATES     //
+	Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
+	Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
+	Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
+	Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
+	Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
+};
+
+GLuint lightIndices[] =
+{
+	0, 1, 2,
+	0, 2, 3,
+	0, 4, 7,
+	0, 7, 3,
+	3, 7, 6,
+	3, 6, 2,
+	2, 6, 5,
+	2, 5, 1,
+	1, 5, 4,
+	1, 4, 0,
+	4, 5, 6,
+	4, 6, 7
+};
 
 
 Game::Game()
@@ -60,7 +102,7 @@ Game::Game()
     
 	glfwInit();
 
-	// opengl version 3.3
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	
@@ -183,11 +225,11 @@ void Game::display()
 	
 	
 	
-	model->Draw(*shaderProgram, *mainCamera->getCameraComponent());
+	//model->Draw(*shaderProgram, *mainCamera->getCameraComponent());
    
 
-	// floorEntity->Draw(*shaderProgram, *mainCamera->getCameraComponent());
-	// lightEntity->Draw(*lightShader, *mainCamera->getCameraComponent());
+	floorEntity->Draw(*shaderProgram, *mainCamera->getCameraComponent());
+	lightEntity->Draw(*lightShader, *mainCamera->getCameraComponent());
     
 
     // for(auto& c : camerasWorld){
@@ -246,48 +288,64 @@ void Game::setUpShaderAndBuffers()
 
     
 	
+	Texture textures[]
+	{
+		Texture("planks.png", "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
+		Texture("planksSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+	};
+	
 	shaderProgram = new Shader("default.vert", "default.frag");
 
+	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
+	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 
-	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
-	glm::mat4 lightModel = glm::mat4(1.0f);
-	lightModel = glm::translate(lightModel, lightPos);
+	floorEntity  = new Mesh(verts,ind, tex);
+	
+	lightShader = new Shader("light.vert", "light.frag");
+	
+	std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
+	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
-	
-    
-    shaderProgram->use();
-	
-    
-    
-    shaderProgram->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);    
-    shaderProgram->set_light_position(lightPos.x, lightPos.y, lightPos.z);
 
-	
-   
+	lightEntity = new Mesh(lightVerts, lightInd, tex);
 
-	
+
+
 }
 
 void Game::setUpEntities()
 {
 
     
-
+	//purple
+	glm::vec4 lightColor = glm::vec4(1.0f, 0.4f, 0.8f, 0.3f);
 	
+	//glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::mat4 lightModel = glm::mat4(1.0f);
+	lightModel = glm::translate(lightModel, lightPos);
+
+	glm::vec3 objectPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 objectModel = glm::mat4(1.0f);
+	objectModel = glm::translate(objectModel, objectPos);
+
+
+	lightShader->use();
+	lightShader->set_model_matrix(lightModel);
+	lightShader->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	
+	shaderProgram->use();
+
+	shaderProgram->set_model_matrix(objectModel);
+	
+	shaderProgram->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	
+	shaderProgram->set_light_position(lightPos.x, lightPos.y, lightPos.z);
+
  	//mainCamera  = new Camera(Game::Width, Game::Height, glm::vec3(0.0f, 0.0f, 2.0f));
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
-
-
-	std::string parentDir = (fs::current_path().fs::path::parent_path()).string();
-	std::string modelPath = "map/scene.gltf";
-	
-	//std::string modelPath = "bunny/scene.gltf";
-	
-	// Load in a model
-	model = new Model((modelPath).c_str());
-
-
 
 
 	
