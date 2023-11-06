@@ -23,39 +23,20 @@
 
 // Vertices coordinates
 GLfloat vertices[] =
-{ //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-
-	-0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-
-	 0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.8f, 0.5f,  0.0f, // Right side
-
-	 0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-	-0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-	 0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f,  0.8f  // Facing side
+{ //     COORDINATES     /        COLORS        /    TexCoord    /       NORMALS     //
+	-1.0f, 0.0f,  1.0f,		0.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 1.0f, 0.0f,
+	-1.0f, 0.0f, -1.0f,		0.0f, 0.0f, 0.0f,		0.0f, 1.0f,		0.0f, 1.0f, 0.0f,
+	 1.0f, 0.0f, -1.0f,		0.0f, 0.0f, 0.0f,		1.0f, 1.0f,		0.0f, 1.0f, 0.0f,
+	 1.0f, 0.0f,  1.0f,		0.0f, 0.0f, 0.0f,		1.0f, 0.0f,		0.0f, 1.0f, 0.0f
 };
 
 // Indices for vertices order
 GLuint indices[] =
 {
-	0, 1, 2, // Bottom side
-	0, 2, 3, // Bottom side
-	4, 6, 5, // Left side
-	7, 9, 8, // Non-facing side
-	10, 12, 11, // Right side
-	13, 15, 14 // Facing side
+	0, 1, 2,
+	0, 2, 3
 };
+
 
 GLfloat lightVertices[] =
 { //     COORDINATES     //
@@ -101,8 +82,13 @@ Shader *shaderProgram = nullptr;
 
 Shader  *lightShader = nullptr;
 
-Texture *brickTex = nullptr;
 
+
+//Texture *brickTex = nullptr;
+
+Texture *planksTex = nullptr;
+
+Texture *planksSpec = nullptr;
 //Camera *mainCamera = nullptr;
 
 MainCamera *mainCamera = nullptr;
@@ -115,6 +101,7 @@ VAO *lightVAO = nullptr;
 
 
 Manager manager;
+
 Game::Game()
 {
 
@@ -250,8 +237,9 @@ void Game::display()
 	
 
 
-	brickTex->Bind();
-
+	//brickTex->Bind();
+	planksTex->Bind();
+	planksSpec->Bind();
 
     VAO1->Bind();
 
@@ -291,7 +279,10 @@ void Game::clean()
 
     VAO1->Delete();
     lightVAO->Delete();
-    brickTex->Delete();
+    //brickTex->Delete();
+	planksTex->Delete();
+	planksSpec->Delete();
+	
 	shaderProgram->Delete();
     lightShader->Delete();
 
@@ -343,8 +334,19 @@ void Game::setUpShaderAndBuffers()
 	lightVBO.Unbind();
 	lightEBO.Unbind();
 
-    brickTex = new Texture("brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-	brickTex->texUnit(*shaderProgram, "tex0", 0);
+    // brickTex = new Texture("brick.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	// brickTex->texUnit(*shaderProgram, "tex0", 0);
+
+
+	planksTex = new Texture("planks.png", GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
+	planksTex->texUnit(*shaderProgram, "tex0", 0);
+
+	planksSpec = new Texture("planksSpec.png", GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE);
+	planksSpec->texUnit(*shaderProgram, "tex1", 1);
+
+
+
+
 }
 
 void Game::setUpEntities()
@@ -357,9 +359,10 @@ void Game::setUpEntities()
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPos);
 
-	glm::vec3 pyramidPos = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::mat4 pyramidModel = glm::mat4(1.0f);
-	pyramidModel = glm::translate(pyramidModel, pyramidPos);
+
+	glm::vec3 objectPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 objectModel = glm::mat4(1.0f);
+	objectModel = glm::translate(objectModel, objectPos);
 
 
 	lightShader->use();
@@ -371,7 +374,7 @@ void Game::setUpEntities()
 	
     
 	
-    shaderProgram->set_model_matrix(pyramidModel);
+    shaderProgram->set_model_matrix(objectModel);
     
     shaderProgram->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);    
     shaderProgram->set_light_position(lightPos.x, lightPos.y, lightPos.z);

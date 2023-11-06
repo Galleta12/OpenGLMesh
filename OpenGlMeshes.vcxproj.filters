@@ -73,4 +73,14 @@
     <ClCompile Include="src\cameraComponent.cpp" />
     <ClCompile Include="src\mainCamera.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\LastAssigmentPlease\OpenGL3DSimpleMaze\planks.png" />
+    <Image Include="..\..\LastAssigmentPlease\OpenGL3DSimpleMaze\planksSpec.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\default.vert" />
+    <None Include="src\shaders\default.frag" />
+    <None Include="src\shaders\light.frag" />
+    <None Include="src\shaders\light.vert" />
+  </ItemGroup>
 </Project>

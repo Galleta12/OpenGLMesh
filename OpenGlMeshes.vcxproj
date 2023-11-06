@@ -206,6 +206,16 @@
     <ClCompile Include="src\vao.cpp" />
     <ClCompile Include="src\vbo.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\LastAssigmentPlease\OpenGL3DSimpleMaze\planks.png" />
+    <Image Include="..\..\LastAssigmentPlease\OpenGL3DSimpleMaze\planksSpec.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\default.frag" />
+    <None Include="src\shaders\default.vert" />
+    <None Include="src\shaders\light.frag" />
+    <None Include="src\shaders\light.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
