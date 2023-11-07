@@ -31,7 +31,7 @@ class Model : public Entity
 		std::vector<float> getAccessorFloats(json accesorNode);
 		std::vector<GLuint> getAccessorIndices(json accesorNode);
 
-
+		
 
 
 		//return type of data to the accesots

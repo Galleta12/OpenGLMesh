@@ -19,6 +19,7 @@ namespace fs = std::experimental::filesystem;
 #include <vector>
 #include "Components.h"
 
+#include "ModelEntity.h"
 #include"Model.h"
 #include "Mesh.h"
 #include "MainCamera.h"
@@ -40,7 +41,8 @@ Shader *shaderProgram = nullptr;
 
 Shader  *lightShader = nullptr;
 
-Model *model = nullptr;
+ModelEntity *modelEntity  = nullptr;
+//Model *model = nullptr;
 
 
 
@@ -48,7 +50,7 @@ Model *model = nullptr;
 
 MainCamera *mainCamera = nullptr;
 
-Model *modelEntity = nullptr;
+//Model *modelEntity = nullptr;
 
 
 //Mesh *floorEntity = nullptr;
@@ -314,8 +316,8 @@ void Game::setUpShaderAndBuffers()
 	
 	Texture textures[]
 	{
-		Texture("planks.png", "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
-		Texture("planksSpec.png", "specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+		Texture("planks.png", "diffuse", 0),
+		Texture("planksSpec.png", "specular", 1)
 	};
 	
 	shaderProgram = new Shader("default.vert", "default.frag");
@@ -347,15 +349,19 @@ void Game::setUpEntities()
     
 
 
-	std::string modelPath = "models/map/scene.gltf";
+	//std::string modelPath = "models/map/scene.gltf";
+	//std::string modelPath = "models/wolf_demon_low_poly/scene.gltf";
+	//std::string modelPath = "models/spider/spider.obj";
+	std::string modelPath = "models/airplane/scene.gltf";
 	
 	
-	modelEntity = dynamic_cast<Model*>(&manager.addEntityClass<Model>((modelPath).c_str()));
+	modelEntity = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath).c_str()));
 	
 	
 	
 	//purple
-	glm::vec4 lightColor = glm::vec4(1.0f, 0.4f, 0.8f, 0.3f);
+	//glm::vec4 lightColor = glm::vec4(1.0f, 0.4f, 0.8f, 0.3f);
+	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	//glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	

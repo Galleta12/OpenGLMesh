@@ -187,7 +187,9 @@
     <ClInclude Include="include\headers\IncludesForMath.h" />
     <ClInclude Include="include\headers\MainCamera.h" />
     <ClInclude Include="include\headers\Mesh.h" />
+    <ClInclude Include="include\headers\MeshNoComponent.h" />
     <ClInclude Include="include\headers\Model.h" />
+    <ClInclude Include="include\headers\ModelEntity.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
     <ClInclude Include="include\headers\TextureModel.h" />
@@ -204,13 +206,24 @@
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\mainCamera.cpp" />
     <ClCompile Include="src\mesh.cpp" />
+    <ClCompile Include="src\meshNoComponent.cpp" />
     <ClCompile Include="src\model.cpp" />
+    <ClCompile Include="src\modelEntity.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\textureModel.cpp" />
     <ClCompile Include="src\vao.cpp" />
     <ClCompile Include="src\vbo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="models\spider\drkwood2.jpg" />
+    <Image Include="models\spider\engineflare1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="models\1963_volkswagen_beetle_junkyard_herbie\scene.bin" />
+    <None Include="models\ranged_large_cameraman\scene.bin" />
+    <None Include="models\wolf_demon_low_poly\scene.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

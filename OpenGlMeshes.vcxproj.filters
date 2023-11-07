@@ -36,7 +36,13 @@
     <ClInclude Include="include\headers\Mesh.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="include\headers\MeshNoComponent.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="include\headers\Model.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\headers\ModelEntity.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="include\headers\ShaderClass.h">
@@ -83,7 +89,13 @@
     <ClCompile Include="src\mesh.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\meshNoComponent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\model.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modelEntity.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\shaderClass.cpp">
@@ -104,5 +116,14 @@
     <ClCompile Include="src\vbo.cpp">
       <Filter>src</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="models\spider\drkwood2.jpg" />
+    <Image Include="models\spider\engineflare1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="models\wolf_demon_low_poly\scene.bin" />
+    <None Include="models\ranged_large_cameraman\scene.bin" />
+    <None Include="models\1963_volkswagen_beetle_junkyard_herbie\scene.bin" />
   </ItemGroup>
 </Project>
