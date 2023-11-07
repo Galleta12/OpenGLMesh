@@ -32,10 +32,11 @@ void CameraComponent::draw(Shader &shader)
 {
      
     //we dont want to draw
-    // if(!shouldDraw)return;
-
-    // setViewShader(shader);
-    // setProjectionShader(shader);
+    if(!shouldDraw)return;
+    shader.use();
+	shader.set_eye_position(Position.x, Position.y, Position.z);
+    setViewShader(shader);
+    setProjectionShader(shader);
 
 }
 

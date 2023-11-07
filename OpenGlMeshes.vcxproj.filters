@@ -91,5 +91,7 @@
     <None Include="crow\scene.bin" />
     <None Include="crow-outline\scene.bin" />
     <None Include="map\scene.bin" />
+    <None Include="src\shaders\model.vert" />
+    <None Include="src\shaders\model.frag" />
   </ItemGroup>
 </Project>

@@ -44,13 +44,13 @@ Model *model = nullptr;
 MainCamera *mainCamera = nullptr;
 
 
-Mesh *floorEntity = nullptr;
-Mesh *lightEntity = nullptr;
+//Mesh *floorEntity = nullptr;
+//Mesh *lightEntity = nullptr;
 
 Manager manager;
 
-// auto &floorEntity(manager.addEntity());
-// auto &lightEntity(manager.addEntity());
+auto &floorEntity(manager.addEntity());
+auto &lightEntity(manager.addEntity());
 // Vertices coordinates
 Vertex vertices[] =
 { //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
@@ -224,12 +224,33 @@ void Game::display()
 
 	
 	
-	
+	//CameraComponent camera = *mainCamera->getCameraComponent();
 	//model->Draw(*shaderProgram, *mainCamera->getCameraComponent());
    
 
-	floorEntity->Draw(*shaderProgram, *mainCamera->getCameraComponent());
-	lightEntity->Draw(*lightShader, *mainCamera->getCameraComponent());
+	
+	
+	for(auto& m :meshesWorld){
+		m->draw(*shaderProgram);
+	}
+
+	for(auto& l :lightsWorld){
+		l->draw(*lightShader);
+	}
+
+
+	// floorEntity->Draw(*shaderProgram, *mainCamera->getCameraComponent());
+	// lightEntity->Draw(*lightShader, *mainCamera->getCameraComponent());
+	
+
+	for(auto& c : camerasWorld){
+        c->draw(*shaderProgram); 
+    }
+	
+	for(auto& c : camerasWorld){
+        c->draw(*lightShader); 
+    }
+	
     
 
     // for(auto& c : camerasWorld){
@@ -283,10 +304,6 @@ void Game::setUpShaderAndBuffers()
 {
 
 
-
-
-
-    
 	
 	Texture textures[]
 	{
@@ -300,7 +317,10 @@ void Game::setUpShaderAndBuffers()
 	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 
-	floorEntity  = new Mesh(verts,ind, tex);
+	//floorEntity  = new Mesh(verts,ind, tex);
+	
+	floorEntity.addComponent<Mesh>(verts,ind, tex);
+	floorEntity.addGroup(Game::groupMeshes);
 	
 	lightShader = new Shader("light.vert", "light.frag");
 	
@@ -308,9 +328,9 @@ void Game::setUpShaderAndBuffers()
 	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
 
-	lightEntity = new Mesh(lightVerts, lightInd, tex);
-
-
+	//lightEntity = new Mesh(lightVerts, lightInd, tex);
+	lightEntity.addComponent<Mesh>(lightVerts, lightInd, tex);
+	lightEntity.addGroup(Game::groupLights);
 
 }
 
