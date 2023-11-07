@@ -6,6 +6,11 @@
 namespace fs = std::experimental::filesystem;
 //------------------------------
 
+#include <assimp/Importer.hpp>      
+#include <assimp/scene.h>       
+#include <assimp/postprocess.h>
+
+
 
 #include "Game.h"
 #include<iostream>
@@ -42,6 +47,8 @@ Model *model = nullptr;
 //Camera *mainCamera = nullptr;
 
 MainCamera *mainCamera = nullptr;
+
+Model *modelEntity = nullptr;
 
 
 //Mesh *floorEntity = nullptr;
@@ -338,6 +345,15 @@ void Game::setUpEntities()
 {
 
     
+
+
+	std::string modelPath = "models/map/scene.gltf";
+	
+	
+	modelEntity = dynamic_cast<Model*>(&manager.addEntityClass<Model>((modelPath).c_str()));
+	
+	
+	
 	//purple
 	glm::vec4 lightColor = glm::vec4(1.0f, 0.4f, 0.8f, 0.3f);
 	

@@ -34,7 +34,8 @@ project "OpenGlMeshes"
         "opengl32",
         "user32",
         "gdi32",
-        "shell32",        
+        "shell32",
+        "assimp-vc143-mtd",        
     }
 
     libdirs { 
@@ -48,6 +49,7 @@ project "OpenGlMeshes"
     filter "configurations:Debug"
         defines { "DEBUG" }
         symbols "On"
+        debugenvs { "/dependencies/dlls" }
 
     filter "configurations:Release"
         defines { "NDEBUG" }
