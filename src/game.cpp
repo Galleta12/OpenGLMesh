@@ -225,7 +225,8 @@ void Game::display()
 
     glEnable(GL_DEPTH_TEST);
 
-    glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+    //glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+	glClearColor(135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f, 0.0f);
     
 	glViewport(0, 0, Width, Height);
 
@@ -338,7 +339,7 @@ void Game::setUpShaderAndBuffers()
 
 
 	//add bezier for testing
-	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),50);
+	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50);
 	bezierEntity.addGroup(Game::groupMeshes);
 
 

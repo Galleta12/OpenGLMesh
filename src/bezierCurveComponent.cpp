@@ -33,7 +33,8 @@ BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments)
 
 
 
-	mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
+	mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT,0,0);
+	//mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
 
     mVAO.Unbind();
     VBO.Unbind();
@@ -49,8 +50,7 @@ BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments)
 //link attribute
 void BezierCurveComponent::update(float deltaTime)
 {
-
-
+ 
 }
 //it will have its own drawCall
 void BezierCurveComponent::drawBezier(Shader& shader,const CameraComponent &cameraComponent)
@@ -105,7 +105,7 @@ void BezierCurveComponent::setWorldViewProj(Shader& shader,const CameraComponent
 {
     
     
-    glm::mat4 scalor = glm::scale(model,glm::vec3(100.0f,100.0f,100.0f));
+    glm::mat4 scalor = glm::translate(model,glm::vec3(0.0f,2.0f,0.0f));
 
     shader.set_model_matrix(scalor);    
     

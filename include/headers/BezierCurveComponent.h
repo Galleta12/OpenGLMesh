@@ -40,6 +40,9 @@ class BezierCurveComponent : public Component{
         void setWorldViewProj(Shader& shader,const CameraComponent &cameraComponent);
 
 		VAO mVAO;
+
+        
+
         int m_numSegments = 50;
 
         glm::vec4 mColor;
