@@ -54,7 +54,9 @@ void MeshNoComponent::Draw(Shader &shader)
 		textures[i].Bind();
 	}
 
+	
+	
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-
+	
 
 }

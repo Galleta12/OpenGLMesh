@@ -20,6 +20,8 @@ public:
 	Shader(const char* vertexFile, const char* fragmentFile);
 	
     Shader(const char* vertexFile,const char* tCS , const char* tES ,const char* fragmentFile);
+    
+    Shader(const char* vertexFile,const char* gEOM ,const char* fragmentFile);
 
 	
 	//use shader

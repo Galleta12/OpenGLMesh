@@ -20,7 +20,7 @@ namespace fs = std::experimental::filesystem;
 #include "Components.h"
 
 #include "ModelEntity.h"
-#include"Model.h"
+
 #include "Mesh.h"
 #include "MainCamera.h"
 //#include"Camera.h"
@@ -315,7 +315,7 @@ void Game::setUpShaderAndBuffers()
 		Texture("planksSpec.png", "specular", 1)
 	};
 	
-	shaderProgram = new Shader("default.vert", "default.frag");
+	shaderProgram = new Shader("simple.vert", "simple.geom","simple.frag");
 
 	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
@@ -356,6 +356,7 @@ void Game::setUpEntities()
 	//std::string modelPath = "models/wolf_demon_low_poly/scene.gltf";
 	//std::string modelPath = "models/spider/spider.obj";
 	std::string modelPath = "models/airplane/scene.gltf";
+	
 	
 	
 	modelEntity = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath).c_str()));

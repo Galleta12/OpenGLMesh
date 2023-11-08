@@ -39,9 +39,6 @@
     <ClInclude Include="include\headers\MeshNoComponent.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="include\headers\Model.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\headers\ModelEntity.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -93,9 +90,6 @@
     <ClCompile Include="src\meshNoComponent.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\model.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\modelEntity.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -131,5 +125,6 @@
     <None Include="src\shaders\bezier.frag" />
     <None Include="src\shaders\bezier.tcs" />
     <None Include="src\shaders\bezier.tes" />
+    <None Include="src\shaders\simple.geom" />
   </ItemGroup>
 </Project>

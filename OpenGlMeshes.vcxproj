@@ -189,7 +189,6 @@
     <ClInclude Include="include\headers\MainCamera.h" />
     <ClInclude Include="include\headers\Mesh.h" />
     <ClInclude Include="include\headers\MeshNoComponent.h" />
-    <ClInclude Include="include\headers\Model.h" />
     <ClInclude Include="include\headers\ModelEntity.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
@@ -209,7 +208,6 @@
     <ClCompile Include="src\mainCamera.cpp" />
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\meshNoComponent.cpp" />
-    <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\modelEntity.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
@@ -230,6 +228,7 @@
     <None Include="src\shaders\bezier.tcs" />
     <None Include="src\shaders\bezier.tes" />
     <None Include="src\shaders\bezier.vert" />
+    <None Include="src\shaders\simple.geom" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -277,10 +277,143 @@ Shader::Shader(const char *vertexFile, const char *tCS, const char *tES, const c
 
 }
 
+Shader::Shader(const char *vertexFile, const char *gEOM, const char *fragmentFile)
+{
+
+	fs::path currentPath = fs::current_path();
+    
+	
+	fs::path vertFileName = vertexFile;
+	fs::path geoFileName = gEOM;
+    fs::path fragFile = fragmentFile;
+
+    fs::path vertShaderPath = currentPath / "src" / "shaders" / vertFileName;
+    
+	fs::path geomShaderPath = currentPath / "src" / "shaders" / geoFileName;
+    
+	fs::path fragShaderPath = currentPath / "src" / "shaders" / fragFile;
+
+	
+	  
+    std::ifstream vert_shader_file(vertShaderPath);
+
+
+    std::string vert_shader_source((std::istreambuf_iterator<char>(vert_shader_file)), std::istreambuf_iterator<char>());
+    
+	vert_shader_file.close();
+    
+	//for the geo
+	std::ifstream geo_shader_file(geomShaderPath);
+
+    std::string geo_shader_source((std::istreambuf_iterator<char>(geo_shader_file)), std::istreambuf_iterator<char>());
+    
+	geo_shader_file.close();
+
+    
+	//frag	
+	std::ifstream frag_shader_file(fragShaderPath);
+
+    std::string frag_shader_source((std::istreambuf_iterator<char>(frag_shader_file)), std::istreambuf_iterator<char>());
+    frag_shader_file.close();
+
+
+
+	const char* vertexSource = vert_shader_source.c_str();
+	
+	//geo
+	const char* geoSource = geo_shader_source.c_str();
+	
+	const char* fragmentSource = frag_shader_source.c_str();
+
+
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+	glShaderSource(vertexShader, 1, &vertexSource, NULL);
+
+	glCompileShader(vertexShader);
+
+	compileErrors(vertexShader, "VERTEX");
+	
+	//geo load shader
+	GLuint geoShader = glCreateShader(GL_GEOMETRY_SHADER);
+
+	glShaderSource(geoShader, 1, &geoSource, NULL);
+
+	glCompileShader(geoShader);
+
+	compileErrors(geoShader, "GEO");
+	
+
+	//frag
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	
+	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+	
+	glCompileShader(fragmentShader);
+	
+	compileErrors(fragmentShader, "FRAGMENT");
+
+	
+	ID = glCreateProgram();
+	
+	glAttachShader(ID, vertexShader);
+	
+	glAttachShader(ID, geoShader);
+	
+	glAttachShader(ID, fragmentShader);
+	
+	glLinkProgram(ID);
+	
+	compileErrors(ID, "PROGRAM");
+
+	// Delete the now useless Vertex and Fragment Shader objects
+	
+	glDeleteShader(vertexShader);
+	
+	glDeleteShader(geoShader);
+	
+	glDeleteShader(fragmentShader);
+
+
+
+	//save the variables
+
+	modelMatrixLoc = glGetUniformLocation(ID, "model");
+	
+    viewMatrixLoc = glGetUniformLocation(ID, "u_view_matrix");
+
+	projectionMatrixLoc = glGetUniformLocation(ID, "u_projection_matrix");
+
+	eyePosLoc = glGetUniformLocation(ID, "u_eye_position");
+	
+	lightPosLoc = glGetUniformLocation(ID, "lightPos");
+
+	
+	lightColorLoc = glGetUniformLocation(ID, "lightColor");
+	
+
+	
+
+
+
+	lightSpecularLoc = glGetUniformLocation(ID, "u_ligh_specular");
+
+	ambientLightLoc = glGetUniformLocation(ID, "u_ambient_light");
+	
+
+
+	squareConstantAmbientALoc = glGetUniformLocation(ID, "squareConstantA");
+	squareConstantAmbientBLoc = glGetUniformLocation(ID, "squareConstantB");
+	
+	outConeLoc = glGetUniformLocation(ID, "outerCone");
+	innerConeLoc = glGetUniformLocation(ID, "innerCone");
+  
+	materialShininessLoc = glGetUniformLocation(ID, "u_shinisses");
 
 
 
 
+}
 
 void Shader::use()
 {

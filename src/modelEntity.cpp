@@ -83,7 +83,6 @@ MeshNoComponent ModelEntity::ProccessMeshes(aiMesh *mesh, const aiScene *scene)
         
         
         
-        
         Vertex vertex;
         //if(mesh->HasPositions()){
             
