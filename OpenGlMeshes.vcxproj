@@ -179,7 +179,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\headers\BezierCurveComponent.h" />
-    <ClInclude Include="include\headers\Camera.h" />
     <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\Components.h" />
     <ClInclude Include="include\headers\EBO.h" />
@@ -199,7 +198,6 @@
   <ItemGroup>
     <ClCompile Include="src\bezierCurveComponent.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\cameraComponent.cpp" />
     <ClCompile Include="src\ebo.cpp" />
     <ClCompile Include="src\ecs.cpp" />
@@ -228,6 +226,8 @@
     <None Include="src\shaders\bezier.tcs" />
     <None Include="src\shaders\bezier.tes" />
     <None Include="src\shaders\bezier.vert" />
+    <None Include="src\shaders\normals.frag" />
+    <None Include="src\shaders\normals.vert" />
     <None Include="src\shaders\simple.geom" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

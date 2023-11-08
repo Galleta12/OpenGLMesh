@@ -39,6 +39,8 @@ Game::WhoISCamera Game::cameraViewState = Game::WhoISCamera::MAINCAMERA;
 
 Shader *shaderProgram = nullptr;
 
+Shader *geomShader = nullptr;
+
 Shader  *lightShader = nullptr;
 
 Shader  *bezierShader = nullptr;
@@ -247,6 +249,7 @@ void Game::display()
 	
 	
 	for(auto& m :meshesWorld){
+		m->draw(*geomShader);
 		m->draw(*shaderProgram);
 		
 		if(m->hasComponent<BezierCurveComponent>()){
@@ -256,17 +259,19 @@ void Game::display()
 		}
 	
 	}
+	
 
 	for(auto& l :lightsWorld){
 		l->draw(*lightShader);
 	}
 
 
-	
-
 	for(auto& c : camerasWorld){
-        c->draw(*shaderProgram); 
+        c->draw(*geomShader);
+        c->draw(*shaderProgram);
     }
+	
+	
 	
 	for(auto& c : camerasWorld){
         c->draw(*lightShader); 
@@ -315,7 +320,9 @@ void Game::setUpShaderAndBuffers()
 		Texture("planksSpec.png", "specular", 1)
 	};
 	
+	geomShader = new Shader("normals.vert", "normals.geom","normals.frag");
 	shaderProgram = new Shader("simple.vert", "simple.geom","simple.frag");
+	
 
 	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
@@ -389,7 +396,13 @@ void Game::setUpEntities()
 	shaderProgram->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	
 	shaderProgram->set_light_position(lightPos.x, lightPos.y, lightPos.z);
+	
+	
+	geomShader->use();
 
+	geomShader->set_model_matrix(objectModel);
+	
+	
  	//mainCamera  = new Camera(Game::Width, Game::Height, glm::vec3(0.0f, 0.0f, 2.0f));
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
 

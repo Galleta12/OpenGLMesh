@@ -17,8 +17,6 @@ class Mesh : public Component
 		// Initializes the mesh
 		Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector <Texture>& textures);
 
-		// Draws the mesh
-		void Draw(Shader& shader, CameraComponent& camera);
 		void draw(Shader& shader) override;
 	
 	private:
