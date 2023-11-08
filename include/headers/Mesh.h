@@ -16,11 +16,13 @@ class Mesh : public Component
 
 		// Initializes the mesh
 		Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector <Texture>& textures);
+		Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices);
 
 		void draw(Shader& shader) override;
 	
 	private:
-
+		void drawMeshTex(Shader& shader);
+	
 		std::vector <Vertex> vertices;
 		std::vector <GLuint> indices;
 		std::vector <Texture> textures;

@@ -2,10 +2,11 @@ d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\ob
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\vc143.idb
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\vbo.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\vao.obj
-d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\texturemodel.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\texture.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\stb.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\shaderclass.obj
+d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\primitivemeshcomponent.obj
+d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\planecomponent.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\modelentity.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\meshnocomponent.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\mesh.obj
@@ -15,6 +16,8 @@ d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\ob
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\ebo.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\cameracomponent.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\main.obj
+d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\lightcomponent.obj
+d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\gameobject.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\beziercurvecomponent.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\glad.obj
 d:\hr-second=semester=2023\computer graphics\programmingassigment5\openglmesh\obj\x64\debug\openglmeshes.ilk

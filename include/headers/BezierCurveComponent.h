@@ -11,6 +11,7 @@
 #include "ShaderClass.h"
 #include "IncludesForMath.h"
 
+
 class BezierCurveComponent : public Component{
 
     public:

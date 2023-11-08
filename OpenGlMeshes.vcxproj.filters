@@ -45,9 +45,6 @@
     <ClInclude Include="include\headers\Texture.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="include\headers\TextureModel.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="include\headers\VAO.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -55,6 +52,10 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="include\headers\BezierCurveComponent.h" />
+    <ClInclude Include="include\headers\PrimitiveMeshComponent.h" />
+    <ClInclude Include="include\headers\LightComponent.h" />
+    <ClInclude Include="include\headers\PlaneComponent.h" />
+    <ClInclude Include="include\headers\GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -96,9 +97,6 @@
     <ClCompile Include="src\texture.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\textureModel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\vao.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -106,6 +104,10 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\bezierCurveComponent.cpp" />
+    <ClCompile Include="src\primitiveMeshComponent.cpp" />
+    <ClCompile Include="src\lightComponent.cpp" />
+    <ClCompile Include="src\planeComponent.cpp" />
+    <ClCompile Include="src\gameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="models\spider\drkwood2.jpg" />

@@ -23,8 +23,7 @@ namespace fs = std::experimental::filesystem;
 
 #include "Mesh.h"
 #include "MainCamera.h"
-//#include"Camera.h"
-
+#include "GameObject.h"
 
 
 //initialize static variables
@@ -53,6 +52,9 @@ ModelEntity *modelEntity  = nullptr;
 //Camera *mainCamera = nullptr;
 
 MainCamera *mainCamera = nullptr;
+GameObject *lightEntity = nullptr;
+
+GameObject *floorEntity = nullptr;
 
 //Model *modelEntity = nullptr;
 
@@ -62,53 +64,12 @@ MainCamera *mainCamera = nullptr;
 
 Manager manager;
 
-auto &floorEntity(manager.addEntity());
-auto &lightEntity(manager.addEntity());
+
 auto &bezierEntity(manager.addEntity());
 
-// Vertices coordinates
-Vertex vertices[] =
-{ //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
-	Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
-	Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
-	Vertex{glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
-	Vertex{glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
-};
 
-// Indices for vertices order
-GLuint indices[] =
-{
-	0, 1, 2,
-	0, 2, 3
-};
 
-Vertex lightVertices[] =
-{ //     COORDINATES     //
-	Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
-	Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
-	Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
-	Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
-	Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
-};
 
-GLuint lightIndices[] =
-{
-	0, 1, 2,
-	0, 2, 3,
-	0, 4, 7,
-	0, 7, 3,
-	3, 7, 6,
-	3, 6, 2,
-	2, 6, 5,
-	2, 5, 1,
-	1, 5, 4,
-	1, 4, 0,
-	4, 5, 6,
-	4, 6, 7
-};
 
 
 Game::Game()
@@ -214,11 +175,6 @@ void Game::update(float deltaTime)
 	manager.refresh();
     manager.update(deltaTime);
 	
-	
-	// mainCamera->Inputs(Game::window, deltaTime);
-
-    // mainCamera->updateMatrix(90.0f, 0.1f, 100.0f);
-
 
 }
 
@@ -249,7 +205,7 @@ void Game::display()
 	
 	
 	for(auto& m :meshesWorld){
-		m->draw(*geomShader);
+		//m->draw(*geomShader);
 		m->draw(*shaderProgram);
 		
 		if(m->hasComponent<BezierCurveComponent>()){
@@ -267,7 +223,7 @@ void Game::display()
 
 
 	for(auto& c : camerasWorld){
-        c->draw(*geomShader);
+        //c->draw(*geomShader);
         c->draw(*shaderProgram);
     }
 	
@@ -294,12 +250,6 @@ void Game::display()
 void Game::clean()
 {
 
-
-   
-	
-	// shaderProgram->Delete();
-    // lightShader->Delete();
-
     
 	glfwDestroyWindow(window);
 	window = NULL;
@@ -314,35 +264,23 @@ void Game::setUpShaderAndBuffers()
 
 
 	
-	Texture textures[]
-	{
-		Texture("planks.png", "diffuse", 0),
-		Texture("planksSpec.png", "specular", 1)
-	};
 	
 	geomShader = new Shader("normals.vert", "normals.geom","normals.frag");
 	shaderProgram = new Shader("simple.vert", "simple.geom","simple.frag");
 	
 
-	std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
-	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
-	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
+	//primivite mesh
+	//floorEntity.addComponent<PlaneComponent>("planks.png","planksSpec.png");
+	
+	floorEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>("planks.png","planksSpec.png"));
 
-	
-	floorEntity.addComponent<Mesh>(verts,ind, tex);
-	floorEntity.addGroup(Game::groupMeshes);
-	
 	lightShader = new Shader("light.vert", "light.frag");
 	
-	std::vector <Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
-	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
-
-
-
-	lightEntity.addComponent<Mesh>(lightVerts, lightInd, tex);
-	lightEntity.addGroup(Game::groupLights);
-
-    bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
+	
+	lightEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>());
+	
+    
+	bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
 
 
 	//add bezier for testing

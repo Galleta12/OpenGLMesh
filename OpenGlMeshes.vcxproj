@@ -184,19 +184,24 @@
     <ClInclude Include="include\headers\EBO.h" />
     <ClInclude Include="include\headers\ECS.h" />
     <ClInclude Include="include\headers\Game.h" />
+    <ClInclude Include="include\headers\GameObject.h" />
     <ClInclude Include="include\headers\IncludesForMath.h" />
+    <ClInclude Include="include\headers\LightComponent.h" />
     <ClInclude Include="include\headers\MainCamera.h" />
     <ClInclude Include="include\headers\Mesh.h" />
     <ClInclude Include="include\headers\MeshNoComponent.h" />
     <ClInclude Include="include\headers\ModelEntity.h" />
+    <ClInclude Include="include\headers\PlaneComponent.h" />
+    <ClInclude Include="include\headers\PrimitiveMeshComponent.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
-    <ClInclude Include="include\headers\TextureModel.h" />
     <ClInclude Include="include\headers\VAO.h" />
     <ClInclude Include="include\headers\VBO.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\bezierCurveComponent.cpp" />
+    <ClCompile Include="src\gameObject.cpp" />
+    <ClCompile Include="src\lightComponent.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\cameraComponent.cpp" />
     <ClCompile Include="src\ebo.cpp" />
@@ -207,10 +212,11 @@
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\meshNoComponent.cpp" />
     <ClCompile Include="src\modelEntity.cpp" />
+    <ClCompile Include="src\planeComponent.cpp" />
+    <ClCompile Include="src\primitiveMeshComponent.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\texture.cpp" />
-    <ClCompile Include="src\textureModel.cpp" />
     <ClCompile Include="src\vao.cpp" />
     <ClCompile Include="src\vbo.cpp" />
   </ItemGroup>
