@@ -112,6 +112,175 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 
 }
 
+Shader::Shader(const char *vertexFile, const char *tCS, const char *tES, const char *fragmentFile)
+{
+
+	fs::path currentPath = fs::current_path();
+    fs::path vertFileName = vertexFile;
+    fs::path fragFile = fragmentFile;
+
+    fs::path vertShaderPath = currentPath / "src" / "shaders" / vertFileName;
+    
+	
+	//tessallator control and evaluation shader
+	fs::path tessControlPath = currentPath / "src" / "shaders" / tCS;
+    fs::path tessEvaluationPath = currentPath / "src" / "shaders" / tES;
+
+    
+	fs::path fragShaderPath = currentPath / "src" / "shaders" / fragFile;
+	
+	//for the vert  
+    std::ifstream vert_shader_file(vertShaderPath);
+
+
+    std::string vert_shader_source((std::istreambuf_iterator<char>(vert_shader_file)), std::istreambuf_iterator<char>());
+    
+	vert_shader_file.close();
+
+
+
+	//for the tess control path
+	std::ifstream tCS_shader_file(tessControlPath);
+
+
+    std::string tcs_shader_source((std::istreambuf_iterator<char>(tCS_shader_file)), std::istreambuf_iterator<char>());
+    
+	
+	tCS_shader_file.close();
+
+	//for the evaluation
+
+
+	std::ifstream tES_shader_file(tessEvaluationPath);
+
+
+    std::string tES_shader_source((std::istreambuf_iterator<char>(tES_shader_file)), std::istreambuf_iterator<char>());
+    
+	
+	tES_shader_file.close();
+
+
+	//for the frag
+    std::ifstream frag_shader_file(fragShaderPath);
+
+    std::string frag_shader_source((std::istreambuf_iterator<char>(frag_shader_file)), std::istreambuf_iterator<char>());
+    
+	frag_shader_file.close();
+
+
+	
+	const char* vertexSource = vert_shader_source.c_str();
+	
+	
+	const char* tCSSource = tcs_shader_source.c_str();
+	
+	const char* tECSource = tES_shader_source.c_str();
+	
+	const char* fragmentSource = frag_shader_source.c_str();
+
+	
+	//for the vertex
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+	glShaderSource(vertexShader, 1, &vertexSource, NULL);
+
+	glCompileShader(vertexShader);
+
+	compileErrors(vertexShader, "VERTEX");
+
+	
+	
+	//for the tcs
+	
+	
+	GLuint tCSShader = glCreateShader(GL_TESS_CONTROL_SHADER);
+
+	glShaderSource(tCSShader, 1, &tCSSource, NULL);
+
+	glCompileShader(tCSShader);
+
+	compileErrors(tCSShader, "TESSELATORCONTROLSHADER");
+	
+	
+	//for the tES
+	GLuint tESShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
+
+	glShaderSource(tESShader, 1, &tECSource, NULL);
+
+	glCompileShader(tESShader);
+
+	compileErrors(tESShader, "TESSELATOREVALUATIONSHADER");
+
+	
+	
+	
+	
+	//for the fragment
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	
+	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+	
+	glCompileShader(fragmentShader);
+	
+	compileErrors(fragmentShader, "FRAGMENT");
+
+	
+	
+	
+	ID = glCreateProgram();
+	
+	glAttachShader(ID, vertexShader);
+	
+	
+	
+	glAttachShader(ID, tCSShader);
+	
+	glAttachShader(ID, tESShader);
+	
+	glAttachShader(ID, fragmentShader);
+	
+	
+	
+	
+	glLinkProgram(ID);
+	
+	compileErrors(ID, "PROGRAM");
+
+	// Delete the now useless Vertex and Fragment Shader objects
+	
+	glDeleteShader(vertexShader);
+	
+	
+	glDeleteShader(tCSShader);
+	
+	glDeleteShader(tESShader);
+	
+
+	glDeleteShader(fragmentShader);
+
+
+	//save values
+	numSegmentsLoc = glGetUniformLocation(ID, "gNumSegments");
+	lineColorLoc = glGetUniformLocation(ID, "gLineColor");
+
+
+
+
+	
+	modelMatrixLoc = glGetUniformLocation(ID, "model");
+	
+    viewMatrixLoc = glGetUniformLocation(ID, "u_view_matrix");
+
+	projectionMatrixLoc = glGetUniformLocation(ID, "u_projection_matrix");
+
+
+
+}
+
+
+
+
+
 
 void Shader::use()
 {
@@ -243,4 +412,20 @@ void Shader::set_outer_cone(float a)
 
 void Shader::set_inner_cone(float b)
 {
+}
+
+
+
+
+void Shader::set_num_segments_Tesallator(int numSegments)
+{
+
+	glUniform1i(numSegmentsLoc, numSegments);
+}
+
+void Shader::set_line_color_Tesallator(glm::vec4 color)
+{
+
+    glUniform4f(lineColorLoc, color.x, color.y, color.z, color.w);
+
 }

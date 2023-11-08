@@ -41,6 +41,8 @@ Shader *shaderProgram = nullptr;
 
 Shader  *lightShader = nullptr;
 
+Shader  *bezierShader = nullptr;
+
 ModelEntity *modelEntity  = nullptr;
 //Model *model = nullptr;
 
@@ -60,6 +62,8 @@ Manager manager;
 
 auto &floorEntity(manager.addEntity());
 auto &lightEntity(manager.addEntity());
+auto &bezierEntity(manager.addEntity());
+
 // Vertices coordinates
 Vertex vertices[] =
 { //               COORDINATES           /            COLORS          /           NORMALS         /       TEXTURE COORDINATES    //
@@ -158,6 +162,9 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
 	//initial viewport
 	glViewport(0, 0, width, height);
 
+	glPointSize(10.0f);
+    glLineWidth(10.0f);
+
     isRunning = true;
 
     setUpShaderAndBuffers();
@@ -225,22 +232,28 @@ void Game::display()
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
+	
    
 
-	// Updates and exports the camera matrix to the Vertex Shader
-	//mainCamera->updateMatrix(90.0f, 0.1f, 100.0f);
+	
 
 	
 	
-	//CameraComponent camera = *mainCamera->getCameraComponent();
-	//model->Draw(*shaderProgram, *mainCamera->getCameraComponent());
+	const CameraComponent camera = *mainCamera->getCameraComponent();
+
    
 
 	
 	
 	for(auto& m :meshesWorld){
 		m->draw(*shaderProgram);
+		
+		if(m->hasComponent<BezierCurveComponent>()){
+			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
+			bezier->drawBezier(*bezierShader,camera);
+		
+		}
+	
 	}
 
 	for(auto& l :lightsWorld){
@@ -248,8 +261,6 @@ void Game::display()
 	}
 
 
-	// floorEntity->Draw(*shaderProgram, *mainCamera->getCameraComponent());
-	// lightEntity->Draw(*lightShader, *mainCamera->getCameraComponent());
 	
 
 	for(auto& c : camerasWorld){
@@ -261,27 +272,10 @@ void Game::display()
     }
 	
     
+	for(auto& c : camerasWorld){
+        c->draw(*bezierShader); 
+    }
 
-    // for(auto& c : camerasWorld){
-    //    c->draw(*shaderProgram); 
-    // }
-	
-
-	// for(auto& m : meshesWorld){
-	// 	m->draw(*shaderProgram);
-	// }
-
-
-
-	// for(auto& l : lightsWorld){
-	// 	l->draw(*lightShader);
-	// }
-
-	// for(auto& c : camerasWorld){
-    //     c->draw(*lightShader); 
-    // }
-	
-	
 
 
 	// Swap the back buffer with the front buffer
@@ -326,7 +320,6 @@ void Game::setUpShaderAndBuffers()
 	std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
 	std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
 
-	//floorEntity  = new Mesh(verts,ind, tex);
 	
 	floorEntity.addComponent<Mesh>(verts,ind, tex);
 	floorEntity.addGroup(Game::groupMeshes);
@@ -337,9 +330,18 @@ void Game::setUpShaderAndBuffers()
 	std::vector <GLuint> lightInd(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
 
-	//lightEntity = new Mesh(lightVerts, lightInd, tex);
+
 	lightEntity.addComponent<Mesh>(lightVerts, lightInd, tex);
 	lightEntity.addGroup(Game::groupLights);
+
+    bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
+
+
+	//add bezier for testing
+	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),50);
+	bezierEntity.addGroup(Game::groupMeshes);
+
+
 
 }
 

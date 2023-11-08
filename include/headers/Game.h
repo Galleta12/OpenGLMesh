@@ -17,7 +17,7 @@ class Game{
             groupCameraOrtho,
             groupMeshes,
             groupLights,
-            
+            groupBezier
         };
 
 

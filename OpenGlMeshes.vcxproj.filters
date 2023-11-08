@@ -60,6 +60,7 @@
     <ClInclude Include="include\headers\VBO.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="include\headers\BezierCurveComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -116,6 +117,7 @@
     <ClCompile Include="src\vbo.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\bezierCurveComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="models\spider\drkwood2.jpg" />
@@ -125,5 +127,9 @@
     <None Include="models\wolf_demon_low_poly\scene.bin" />
     <None Include="models\ranged_large_cameraman\scene.bin" />
     <None Include="models\1963_volkswagen_beetle_junkyard_herbie\scene.bin" />
+    <None Include="src\shaders\bezier.vert" />
+    <None Include="src\shaders\bezier.frag" />
+    <None Include="src\shaders\bezier.tcs" />
+    <None Include="src\shaders\bezier.tes" />
   </ItemGroup>
 </Project>

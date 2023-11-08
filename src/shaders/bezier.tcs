@@ -1,0 +1,24 @@
+#version 400 core
+
+
+//set the number of vertices in the output path to 4
+//it will be 4 in the input and other 4 in the output
+layout (vertices = 4) out;
+
+//number of segments
+uniform int gNumSegments;
+
+void main()
+{
+    //copies the input attrib to the Outputs
+    //ir will only write to the current, that is the invocation ID-1
+    gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
+
+    //this is the par patch 
+    //one since we want a single output line
+    gl_TessLevelOuter[0] = 1.0;
+
+    //the number of segments in that line
+    //is cast from an int to a float point
+    gl_TessLevelOuter[1] = float(gNumSegments);
+}

@@ -18,6 +18,8 @@ public:
 	GLuint ID;
 	// Constructor that build the Shader Program from 2 different shaders
 	Shader(const char* vertexFile, const char* fragmentFile);
+	
+    Shader(const char* vertexFile,const char* tCS , const char* tES ,const char* fragmentFile);
 
 	
 	//use shader
@@ -71,6 +73,11 @@ public:
     void set_inner_cone(float b);
 
   
+    //for the tesallator
+    void set_num_segments_Tesallator(int numSegments);
+    
+    void set_line_color_Tesallator(glm::vec4 color);
+  
 
 
 private:
@@ -118,7 +125,11 @@ private:
     GLuint innerConeLoc;
 
 	
+    //for the tesallator
 
+    GLuint numSegmentsLoc;
+    
+    GLuint  lineColorLoc;
 
 	
 	

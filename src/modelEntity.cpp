@@ -49,8 +49,6 @@ void ModelEntity::LoadModel()
     }
 
     
-
-
 }
 
 void ModelEntity::TransverseNode(aiNode *node, const aiScene *scene)
@@ -222,59 +220,3 @@ std::vector<Texture> ModelEntity::LoadMaterialTextures(aiMaterial *mat, aiTextur
     return textures;
 }
 
-// Mesh ModelEntity::ProccessMeshes(aiMesh *mesh, const aiScene *scene)
-// {
-    
-//     std::vector<Vertex> vertices;
-//     std::vector<GLuint> indices;
-//     std::vector<Texture> textures;
-    
-//     for(unsigned int i = 0; i < mesh->mNumVertices; i++)
-//     {
-        
-        
-        
-        
-//         Vertex vertex;
-//         if(mesh->HasPositions()){
-
-//             glm:: vec3 vectorPos;
-//             //vertices position on the mesh loaded by assimp
-//             vectorPos.x = mesh->mVertices[i].x;
-//             vectorPos.y = mesh->mVertices[i].y;
-//             vectorPos.z = mesh->mVertices[i].z;
-
-//             vertex.position = vectorPos;
-//         }
-//         //for the normals
-//         if(mesh->HasNormals()){
-//             glm:: vec3 vectorNormal;
-//             vectorNormal.x = mesh->mNormals[i].x;
-//             vectorNormal.y = mesh->mNormals[i].y;
-//             vectorNormal.z = mesh->mNormals[i].z;
-//             //save it in the vertex struct
-//             vertex.normal =vectorNormal;
-//         }
-//         //now for the texture
-//         if(mesh->HasTextureCoords(0)){
-// 	        glm::vec2 texCoor;
-
-//             texCoor.x = mesh->mTextureCoords[0][i].x;
-//             texCoor.y = mesh->mTextureCoords[0][i].y;
-
-//             vertex.texUV = texCoor;
-
-//         }
-//         else{
-//             vertex.texUV = glm::vec2(0.0f,0.0f);
-//         }
-
-//         vertices.push_back(vertex);
-
-
-//     }
-    
-//     return Entity::addComponent<Mesh>(vertices,indices,textures);
-
-
-// }

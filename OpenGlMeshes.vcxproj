@@ -178,6 +178,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\headers\BezierCurveComponent.h" />
     <ClInclude Include="include\headers\Camera.h" />
     <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\Components.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="include\headers\VBO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\bezierCurveComponent.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\cameraComponent.cpp" />
@@ -224,6 +226,10 @@
     <None Include="models\1963_volkswagen_beetle_junkyard_herbie\scene.bin" />
     <None Include="models\ranged_large_cameraman\scene.bin" />
     <None Include="models\wolf_demon_low_poly\scene.bin" />
+    <None Include="src\shaders\bezier.frag" />
+    <None Include="src\shaders\bezier.tcs" />
+    <None Include="src\shaders\bezier.tes" />
+    <None Include="src\shaders\bezier.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
