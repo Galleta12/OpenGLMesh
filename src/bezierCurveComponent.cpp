@@ -16,9 +16,9 @@ BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments)
     Vertex vertices[] =
     { //               COORDINATES          
         Vertex{glm::vec3(-0.95f, -0.95f,  0.0f)},
-        Vertex{glm::vec3(-0.95f, -0.95f, 0.0f)},
-        Vertex{glm::vec3(-0.95f, -0.95f, 0.0f)},
-        Vertex{glm::vec3(-0.95f, -0.95f,  0.0f)}
+        Vertex{glm::vec3(0.0f, 0.0f,    0.0f)},
+        Vertex{glm::vec3(0.0f, 0.0f,    0.0f)},
+        Vertex{glm::vec3(0.0f, 0.0f,  -0.95f)}
     };
     
   
@@ -33,8 +33,8 @@ BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments)
 
 
 
-	mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT,0,0);
-	//mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
+	//mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT,0,0);
+	mVAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
 
     mVAO.Unbind();
     VBO.Unbind();
@@ -105,9 +105,18 @@ void BezierCurveComponent::setWorldViewProj(Shader& shader,const CameraComponent
 {
     
     
-    glm::mat4 scalor = glm::translate(model,glm::vec3(0.0f,2.0f,0.0f));
+    glm::mat4 translation = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
 
-    shader.set_model_matrix(scalor);    
+    // Create a quaternion for the rotation (90 degrees around the y-axis)
+    glm::quat rotation = glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    // Convert the quaternion to a rotation matrix
+    glm::mat4 rotationMatrix = glm::mat4_cast(rotation);
+
+    // Combine the translation and rotation matrices
+    glm::mat4 TRS = translation * rotationMatrix;
+    
+    shader.set_model_matrix(TRS);    
     
     shader.set_view_matrix(cameraComponent.viewMatrix);
     

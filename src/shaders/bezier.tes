@@ -24,7 +24,7 @@ void main()
 {
     
     
-	mat4 global_position=  u_projection_matrix * u_view_matrix;
+	mat4 global_position=  u_projection_matrix * u_view_matrix * model;
     
     
     //this is a 3D vector, that tcs has output
