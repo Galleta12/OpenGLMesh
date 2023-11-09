@@ -8,6 +8,7 @@ On this project, this are the main features:
 The second camera is a look camera, is located above the the plane and is always looking to one of the light sources.
 The third camera is located on the airplane mesh, and always looking to the dog mesh.
 You can change cameras, with 1,2,3 keyboard.
+The fist camera is set by default, so you can start moving normally with this camera, or change to other cameras with the 1,2,3 keyboard.
 
 -Mesh loading
 I am using the library called Assimp, for loading meshes. You can load many 3D formats with Assimp, thus it will save the model in its own data structure. I wrote a code that will parse the data structure of Assimp into meshes objects 
