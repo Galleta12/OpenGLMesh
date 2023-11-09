@@ -6,6 +6,7 @@
 #include<vector>
 
 // Structure to standardize the vertices used in the meshes
+//and primitive meshes
 struct Vertex
 {
 	glm::vec3 position;
@@ -20,16 +21,11 @@ struct Vertex
 class VBO
 {
 public:
-	// Reference ID of the Vertex Buffer Object
 	GLuint ID;
-	// Constructor that generates a Vertex Buffer Object and links it to vertices
 	VBO(std::vector<Vertex>& vertices);
 
-	// Binds the VBO
 	void Bind();
-	// Unbinds the VBO
 	void Unbind();
-	// Deletes the VBO
 	void Delete();
 };
 

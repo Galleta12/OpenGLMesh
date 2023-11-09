@@ -14,7 +14,7 @@ class Game{
         {
            
             groupCameras,
-            groupCameraOrtho,
+            groupCameraFollow,
             groupMeshes,
             groupMeshesNormal,
             groupLights,
@@ -24,8 +24,8 @@ class Game{
 
         static enum WhoISCamera{
             MAINCAMERA,
-            FIRTPLAYERCAM,
-            OrthoCam
+            LOOKCAM,
+            FOLLOWCAM
         };
 
         static WhoISCamera cameraViewState;
@@ -54,6 +54,7 @@ class Game{
 
         
         
+
         float currentTime = 0.0f;
         bool firstFrame = true;
 
@@ -63,6 +64,10 @@ class Game{
         void drawFirstViewPort(float deltaTime);
         
         void setLights();
+        void setSecondCam();
+        void setThirCam();
+
+        void updateCams();
 
 
 };

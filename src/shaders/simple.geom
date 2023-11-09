@@ -133,10 +133,8 @@ void explosionGeo(){
 void main()
 {
 
-    if(isExplosion){
-    }
-    else{
-        normalGeo();
-    }
+    //use the explosion if u want to have other shader
+    normalGeo();
+    //explosionGeo();
 
 }

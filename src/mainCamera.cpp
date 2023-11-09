@@ -6,8 +6,8 @@ MainCamera::MainCamera(Manager &mManager)
 
     Entity::addComponent<CameraComponent>(glm::vec3(0.0f, 0.0f, 2.0f));
     //needs to be on this group
-    Entity::addGroup(Game::groupCameras);
     saveComponents();
+    Entity::addGroup(Game::groupCameras);
 
 }
 
@@ -67,50 +67,48 @@ void MainCamera::saveComponents()
 void MainCamera::RotationCamera(float deltaTime)
 {
 
-    // Handles mouse inputs
+
 	if (glfwGetMouseButton(Game::window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
-		// Hides mouse cursor
+	
 		glfwSetInputMode(Game::window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-		// Prevents camera from jumping on the first click
+		// [prevent jump on first click
 		if (firstClick)
 		{
 			glfwSetCursorPos(Game::window, (Game::Width / 2), (Game::Height / 2));
 			firstClick = false;
 		}
 
-		// Stores the coordinates of the cursor
 		double mouseX;
 		double mouseY;
-		// Fetches the coordinates of the cursor
+	
 		glfwGetCursorPos(Game::window, &mouseX, &mouseY);
 
-		// Normalizes and shifts the coordinates of the cursor such that they begin in the middle of the screen
-		// and then "transforms" them into degrees 
+		//begging the curson on the middle of the screen
 		float rotX = sensitivity * (float)(mouseY - (Game::Height / 2)) / Game::Height;
 		float rotY = sensitivity * (float)(mouseX - (Game::Width / 2)) / Game::Width;
 
-		// Calculates upcoming vertical change in the Orientation
+		// vertical change orientation
 		glm::vec3 newOrientation = glm::rotate(mCameraComponent->Orientation, glm::radians(-rotX), glm::normalize(glm::cross(mCameraComponent->Orientation, mCameraComponent->Up)));
 
-		// Decides whether or not the next vertical Orientation is legal or not
+		// check if the new vertical is on range
 		if (abs(glm::angle(newOrientation,  mCameraComponent->Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
 		{
 			mCameraComponent->Orientation = newOrientation;
 		}
 
-		// Rotates the Orientation left and right
+		
 		mCameraComponent->Orientation = glm::rotate(mCameraComponent->Orientation, glm::radians(-rotY),  mCameraComponent->Up);
 
-		// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
+		// cursor on the middle of the screen so that it doesn't end up roaming around
 		glfwSetCursorPos(Game::window, (Game::Width / 2), (Game::Height / 2));
 	}
 	else if (glfwGetMouseButton(Game::window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
 	{
-		// Unhides cursor since camera is not looking around anymore
+		// Unhides 
 		glfwSetInputMode(Game::window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		// Makes sure the next time the camera looks around it doesn't jump
+		//  camera looks around it doesn't jump, the cam, weird movements
 		firstClick = true;
 	}
 

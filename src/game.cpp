@@ -87,6 +87,9 @@ auto &bezierEntity5(manager.addEntity());
 
 
 
+//entities for the camera
+auto &lookCamEntity(manager.addEntity());
+//auto &folloCamEntity(manager.addEntity());
 
 
 
@@ -162,12 +165,20 @@ auto& meshesWorld(manager.getGroup(Game::groupMeshes));
 auto& meshesWorldNormal(manager.getGroup(Game::groupMeshesNormal));
 auto& lightsWorld(manager.getGroup(Game::groupLights));
 
+auto& followCameraWorld(manager.getGroup(Game::groupCameraFollow));
+
 
 void Game::handleEvents()
 {
 
 
-      //ppointet ro the orthocamera
+	//CameraComponent cam1 = *mainCamera->getCameraComponent();
+	
+	CameraComponent *cam2 = &lookCamEntity.getComponent<CameraComponent>();
+	
+	// CameraComponent cam3 = folloCamEntity.getComponent<CameraComponent>();
+
+    //ppointet ro the orthocamera
     if(glfwWindowShouldClose(window)){
         isRunning = false;
     }
@@ -175,12 +186,43 @@ void Game::handleEvents()
 	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS){
 		
 		cameraViewState = WhoISCamera::MAINCAMERA;
-	
+		cam2->shouldDraw = false;
+		
+		// // cam3.shouldDraw = false;
+		
+		mainCamera->getCameraComponent()->shouldDraw = true;
+		
+		
+		
+		
+		
 	}
 	
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS){
+	else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS){
 		
+		cameraViewState = WhoISCamera::LOOKCAM;
+		
+		mainCamera->getCameraComponent()->shouldDraw = false;
+		
+		// // cam3.shouldDraw = false;
+		
+		cam2->shouldDraw=true;
+		
+		
+	}
 	
+	else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS){
+		
+		//cam1->shouldDraw = false;
+		
+		// cam2.shouldDraw = false;
+		
+		// cam3.shouldDraw=true;
+		
+		
+		
+		cameraViewState = WhoISCamera::FOLLOWCAM;
+		
 	}
 
 
@@ -225,7 +267,6 @@ void Game::update(float deltaTime)
 		}
 	
 	}
-
 	// bezier->setPosBezier(currentTime);
 	// bezier2->setPosBezier(currentTime);
 
@@ -240,6 +281,8 @@ void Game::update(float deltaTime)
 
 	manager.refresh();
     manager.update(deltaTime);
+	
+	updateCams();
 	
 
 
@@ -265,7 +308,19 @@ void Game::display()
 
 	
 	
-	const CameraComponent camera = *mainCamera->getCameraComponent();
+	CameraComponent *camera =  mainCamera->getCameraComponent();
+	CameraComponent *camera2 =  &lookCamEntity.getComponent<CameraComponent>();
+	// if(	cameraViewState = WhoISCamera::MAINCAMERA){
+	// 	camera = mainCamera->getCameraComponent();
+	// }
+	// else if(cameraViewState = WhoISCamera::LOOKCAM){
+	// 	camera = &lookCamEntity.getComponent<CameraComponent>();
+	// }
+	// else if(cameraViewState = WhoISCamera::FOLLOWCAM){
+	// 	camera = &folloCamEntity.getComponent<CameraComponent>();
+
+	// }
+	
 
    
 	setLights();
@@ -277,7 +332,18 @@ void Game::display()
 		
 		if(m->hasComponent<BezierCurveComponent>()){
 			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
-			bezier->drawBezier(*bezierShader,camera);
+			
+			if(cameraViewState == LOOKCAM){
+
+				bezier->drawBezier(*bezierShader,*camera2);
+			}
+
+
+			else if(cameraViewState == MAINCAMERA){
+				bezier->drawBezier(*bezierShader,*camera);
+
+			}
+		
 		
 		}
 	
@@ -289,7 +355,16 @@ void Game::display()
 		
 		if(m->hasComponent<BezierCurveComponent>()){
 			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
-			bezier->drawBezier(*bezierShader,camera);
+			if(cameraViewState == LOOKCAM){
+
+				bezier->drawBezier(*bezierShader,*camera2);
+			}
+			else{
+				bezier->drawBezier(*bezierShader,*camera);
+
+			}
+		
+			
 		
 		}
 	
@@ -311,6 +386,7 @@ void Game::display()
 
 	}
 	
+
 	
 	
 	
@@ -440,7 +516,8 @@ void Game::setUpEntities()
 	
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
 
-
+	setSecondCam();
+	setThirCam();
 	
 
 }
@@ -485,6 +562,61 @@ void Game::setLights()
 	
 	shaderProgram->set_light_position(lightPos1.x,lightPos1.y,lightPos1.z);
 	shaderProgram->set_light_position2(lightPos2.x,lightPos2.y,lightPos2.z);
+
+
+
+}
+
+void Game::setSecondCam()
+{
+
+	glm::vec3 staticPos = glm::vec3(0.0f, 5.0f, 2.0f);
+	
+	lookCamEntity.addComponent<CameraComponent>(staticPos);
+
+
+	CameraComponent *camera = &lookCamEntity.getComponent<CameraComponent>();
+
+	camera->shouldDraw = false;
+
+	//direction to the second lightentity
+	const TransformComponent *light = &lightEntity2->getTransform();
+
+	//glm::vec3 newDir = light->getPosition() - camera.Position;
+
+	camera->setLooKViewCamera(camera->Position,light->getPosition(),camera->Up);
+	
+	float aspect =  static_cast<float>(Game::Width / Game::Height);
+    
+    
+	camera->zoom = glm::radians(90.0f);
+    
+    camera->setPerspectiveProjection(camera->zoom,aspect, 0.1f,100.0f);
+
+
+    lookCamEntity.addGroup(Game::groupCameras);
+
+}
+
+void Game::setThirCam()
+{
+}
+
+void Game::updateCams()
+{
+
+
+	//for the second cam
+
+	CameraComponent *camera = &lookCamEntity.getComponent<CameraComponent>();
+	
+	const TransformComponent *light = &lightEntity2->getTransform();
+	
+    camera->setLooKViewCamera(camera->Position,light->getPosition(),camera->Up);
+    
+	float aspect =  static_cast<float>(Game::Width / Game::Height);
+    
+   	camera->setPerspectiveProjection(camera->zoom,aspect, 0.1f,100.0f);
 
 
 
