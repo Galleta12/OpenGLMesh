@@ -37,9 +37,9 @@ class BezierCurveComponent : public Component{
         }
 
 
+        const glm::vec3 &getBezierPos() const{return currentBezierCurvePos;}
 
-
-        glm::vec3 getCurrentPos(float currentTime,const glm::vec3 currentPos);
+        void setPosBezier(float currentTime);
 
     private:
 
@@ -71,6 +71,7 @@ class BezierCurveComponent : public Component{
 
         glm::mat4 model = glm::mat4(1.0f);
 
+        glm::vec3 currentBezierCurvePos;
 
         std::vector<glm::vec3> controlPointList;
 };

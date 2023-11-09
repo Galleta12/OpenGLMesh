@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+
 GameObject::GameObject(Manager &mManager, const char *tex, const char *specular,
 glm::vec3 pos, glm::vec3 euler, glm::vec3 scale)
 :Entity(mManager)
@@ -54,9 +55,25 @@ GameObject::~GameObject()
 
 }
 
+void GameObject::setUpBezier(BezierCurveComponent &curveBezier)
+{
+    
+    hasBezier = true;
+    //save the bezier entity
+    bezier = &curveBezier;
+
+
+}
+
 void GameObject::update(float deltaTime)
 {
     
+    if(hasBezier){
+
+        //set the new position in the transform
+        transform->setPosition(bezier->getBezierPos());    
+        
+    }
     Entity::update(deltaTime);
 }
 

@@ -85,14 +85,16 @@ void BezierCurveComponent::drawBezier(Shader& shader,const CameraComponent &came
 
 }
 
-glm::vec3 BezierCurveComponent::getCurrentPos(float currentTime, const glm::vec3 currentPos)
+void BezierCurveComponent::setPosBezier(float currentTime)
 {
     
     //if we are not withing the start and endtime
     //we start from the beginning
     
     if(currentTime < mStartTime){
-        return  controlPointList[0];     
+        currentBezierCurvePos =  controlPointList[0];     
+        return;
+
     }
     
     else if(currentTime > mEndTime){
@@ -104,8 +106,9 @@ glm::vec3 BezierCurveComponent::getCurrentPos(float currentTime, const glm::vec3
 
         //set new start and end point
         setNewStartAndEndPoint();
-        return  lastPoint;
-                   
+        currentBezierCurvePos=  lastPoint;
+        
+        return;
     }
 
     float t = (currentTime - mStartTime) / (mEndTime - mStartTime);
@@ -128,7 +131,7 @@ glm::vec3 BezierCurveComponent::getCurrentPos(float currentTime, const glm::vec3
     glm::vec3 result = p0 * b0 + p1 * b1 + p2 * b2 + p3 * b3;
 
 
-    return result;
+    currentBezierCurvePos = result;
 }
 
 void BezierCurveComponent::renderPointTS(int topology_type)

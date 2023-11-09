@@ -26,17 +26,25 @@ public:
 
     ~GameObject();
 
+    
+    void setUpBezier(BezierCurveComponent &curveBezier);
+    
     void update(float deltaTime) override;
     void draw(Shader& shader) override;
+    
+
+
 
     const TransformComponent &getTransform() const{
         return *transform;
     }
 
 private:
+    bool hasBezier = false;
     PrimitiveMeshComponent* pri = nullptr;
     Mesh* mMesh = nullptr;
     TransformComponent *transform = nullptr;
+    BezierCurveComponent *bezier = nullptr;
     void SetUpTransform(glm::vec3 pos, glm::vec3 euler, glm::vec3 scale);
 
 };

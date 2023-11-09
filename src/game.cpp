@@ -194,16 +194,16 @@ void Game::update(float deltaTime)
 	
 
 	BezierCurveComponent *bezier= &bezierEntity.getComponent<BezierCurveComponent>();
+	bezier->setPosBezier(currentTime);
+
+	// //get the current point of light
+	// TransformComponent *lighTransform = &lightEntity->getComponent<TransformComponent>();
+	
 	
 
-	//get the current point of light
-	TransformComponent *lighTransform = &lightEntity->getComponent<TransformComponent>();
+	// lighTransform->setPosition(bezier->getCurrentPos(currentTime,lighTransform->getPosition()));
+
 	
-	
-
-	lighTransform->setPosition(bezier->getCurrentPos(currentTime,lighTransform->getPosition()));
-
-
 
 	manager.refresh();
     manager.update(deltaTime);
@@ -296,6 +296,16 @@ void Game::setUpShaderAndBuffers()
 {
 
 
+	bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
+
+
+	
+	
+	
+	//add bezier for testing
+	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
+	bezierControl1,2.0f,5.0f);
+	bezierEntity.addGroup(Game::groupMeshes);
 	
 	
 	geomShader = new Shader("normals.vert", "normals.geom","normals.frag");
@@ -313,21 +323,13 @@ void Game::setUpShaderAndBuffers()
 	
 	lightEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>(glm::vec3(0.5f, 0.5f, 0.5f),glm::vec3(0.0f,0.0f,0.0f),
 	glm::vec3(1.0f,1.0f,1.0f)));
+
+	lightEntity->setUpBezier(bezierEntity.getComponent<BezierCurveComponent>());
 	
 	lightEntity2 = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>(glm::vec3(0.0f, 2.5f, 4.5f),glm::vec3(0.0f,0.0f,0.0f),
 	glm::vec3(1.0f,1.0f,1.0f)));
 	
     
-	bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
-
-
-	
-	
-	
-	//add bezier for testing
-	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
-	bezierControl1,2.0f,5.0f);
-	bezierEntity.addGroup(Game::groupMeshes);
 
 
 
