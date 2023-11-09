@@ -4,9 +4,17 @@
 #define ASSIMP_LOAD_FLAGS (aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices)
 
 
-ModelEntity::ModelEntity(Manager &mManger, const char *file)
+ModelEntity::ModelEntity(Manager &mManger, const char *file,
+glm::vec3 pos, glm::vec3 euler, glm::vec3 scale
+)
 :Entity(mManger)
 {
+
+    Entity::addComponent<TransformComponent>(pos, euler, scale);
+
+    transform = &Entity::getComponent<TransformComponent>();
+
+
 
     mFile = file;
     Entity::addGroup(Game::groupMeshes);   
@@ -18,6 +26,12 @@ ModelEntity::~ModelEntity()
 
 }
 
+void ModelEntity::update(float deltaTime)
+{
+    Entity::update(deltaTime);
+
+}
+
 void ModelEntity::draw(Shader &shader)
 {
     
@@ -26,7 +40,7 @@ void ModelEntity::draw(Shader &shader)
 
     for (unsigned int i = 0; i < mMeshesList.size(); i++)
 	{
-		mMeshesList[i].MeshNoComponent::Draw(shader);
+		mMeshesList[i].MeshNoComponent::Draw(shader,transform->getModelMatrix());
 	}
 
 

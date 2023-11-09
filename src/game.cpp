@@ -26,6 +26,18 @@ namespace fs = std::experimental::filesystem;
 #include "GameObject.h"
 
 
+
+//white
+
+glm::vec4 lightColor1 = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); 
+
+glm::vec4 lightColor2 = glm::vec4(1.0f, 0.4f, 0.8f, 0.3f);
+
+#define LighColor1 lightColor1.x, lightColor1.y, lightColor1.z, lightColor1.w
+
+#define LighColor2 lightColor2.x, lightColor2.y, lightColor2.z, lightColor2.w
+
+
 //initialize static variables
 int Game::Width = 0;
 int Game::Height = 0;
@@ -52,7 +64,10 @@ ModelEntity *modelEntity  = nullptr;
 //Camera *mainCamera = nullptr;
 
 MainCamera *mainCamera = nullptr;
+
 GameObject *lightEntity = nullptr;
+
+GameObject *lightEntity2 = nullptr;
 
 GameObject *floorEntity = nullptr;
 
@@ -183,9 +198,9 @@ void Game::display()
 
     glEnable(GL_DEPTH_TEST);
 
-    //glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-	glClearColor(135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f, 0.0f);
-    
+   
+	//glClearColor(135.0f / 255.0f, 206.0f / 255.0f, 235.0f / 255.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glViewport(0, 0, Width, Height);
 
 	
@@ -201,7 +216,7 @@ void Game::display()
 	const CameraComponent camera = *mainCamera->getCameraComponent();
 
    
-
+	setLights();
 	
 	
 	for(auto& m :meshesWorld){
@@ -269,15 +284,19 @@ void Game::setUpShaderAndBuffers()
 	shaderProgram = new Shader("simple.vert", "simple.geom","simple.frag");
 	
 
-	//primivite mesh
-	//floorEntity.addComponent<PlaneComponent>("planks.png","planksSpec.png");
 	
-	floorEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>("planks.png","planksSpec.png"));
+	
+	floorEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>("planks.png","planksSpec.png",
+	glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(5.0f,1.0f,5.0f)));
 
 	lightShader = new Shader("light.vert", "light.frag");
 	
 	
-	lightEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>());
+	lightEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>(glm::vec3(0.5f, 0.5f, 0.5f),glm::vec3(0.0f,0.0f,0.0f),
+	glm::vec3(1.0f,1.0f,1.0f)));
+	
+	lightEntity2 = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>(glm::vec3(0.0f, 2.5f, 4.5f),glm::vec3(0.0f,0.0f,0.0f),
+	glm::vec3(1.0f,1.0f,1.0f)));
 	
     
 	bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
@@ -304,44 +323,15 @@ void Game::setUpEntities()
 	
 	
 	
-	modelEntity = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath).c_str()));
+	modelEntity = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath).c_str(),
+	glm::vec3(0.0f,2.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.5f,0.5f,0.5f)));
 	
 	
 	
 	//purple
 	//glm::vec4 lightColor = glm::vec4(1.0f, 0.4f, 0.8f, 0.3f);
-	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	// glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	//glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	
-	glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
-	glm::mat4 lightModel = glm::mat4(1.0f);
-	lightModel = glm::translate(lightModel, lightPos);
-
-	glm::vec3 objectPos = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::mat4 objectModel = glm::mat4(1.0f);
-	objectModel = glm::translate(objectModel, objectPos);
-
-
-	lightShader->use();
-	lightShader->set_model_matrix(lightModel);
-	lightShader->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	
-	shaderProgram->use();
-
-	shaderProgram->set_model_matrix(objectModel);
-	
-	shaderProgram->set_light_color(lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	
-	shaderProgram->set_light_position(lightPos.x, lightPos.y, lightPos.z);
-	
-	
-	geomShader->use();
-
-	geomShader->set_model_matrix(objectModel);
-	
-	
- 	//mainCamera  = new Camera(Game::Width, Game::Height, glm::vec3(0.0f, 0.0f, 2.0f));
 	mainCamera = dynamic_cast<MainCamera*>(&manager.addEntityClass<MainCamera>());
 
 
@@ -357,4 +347,34 @@ void Game::drawFirstViewPort(float deltaTime)
 
 void Game::setLights()
 {
+
+	shaderProgram->use();
+	
+	shaderProgram->set_light_color(LighColor1);
+	
+	shaderProgram->set_light_color2(LighColor2);
+	
+	
+	
+	lightShader->use();
+	//for the light shader we dont have two differnt lights
+	//is one per object in the shader
+	lightShader->set_light_color(LighColor1);
+	lightShader->set_light_color(LighColor2);
+	
+	
+
+	shaderProgram->use();
+
+
+
+	glm::vec3 lightPos1 = lightEntity->getTransform().getPosition();
+	glm::vec3 lightPos2 = lightEntity2->getTransform().getPosition();
+	
+	
+	shaderProgram->set_light_position(lightPos1.x,lightPos1.y,lightPos1.z);
+	shaderProgram->set_light_position2(lightPos2.x,lightPos2.y,lightPos2.z);
+
+
+
 }

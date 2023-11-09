@@ -8,13 +8,16 @@
 #include "Components.h"
 #include "MeshNoComponent.h"
 
+class TransformComponent;
 class ModelEntity : public Entity{
 
     public:
-        ModelEntity(Manager &mManger, const char* file);
+        ModelEntity(Manager &mManger, const char* file,
+        glm::vec3 pos, glm::vec3 euler, glm::vec3 scale);
         ~ModelEntity();
 
-		void draw(Shader &shader) override;
+		void update(float deltaTime) override;
+        void draw(Shader &shader) override;
         
     private:
         
@@ -37,6 +40,7 @@ class ModelEntity : public Entity{
         std::vector<std::string> mLoadedTexName;
 	    //store texture of all meshes to use
         std::vector<Texture> mLoadedTex;
-
+        //for the transfomr
+        TransformComponent *transform = nullptr;
 
 }; 

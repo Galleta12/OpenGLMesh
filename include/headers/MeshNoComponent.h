@@ -15,7 +15,7 @@ class MeshNoComponent {
     public:
 
         MeshNoComponent (std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector <Texture>& textures);
-        void Draw(Shader& shader);
+        void Draw(Shader& shader, const glm::mat4 &modelMatrix);
 
     private:
         std::vector <Vertex> vertices;

@@ -195,6 +195,7 @@
     <ClInclude Include="include\headers\PrimitiveMeshComponent.h" />
     <ClInclude Include="include\headers\ShaderClass.h" />
     <ClInclude Include="include\headers\Texture.h" />
+    <ClInclude Include="include\headers\TransformComponent.h" />
     <ClInclude Include="include\headers\VAO.h" />
     <ClInclude Include="include\headers\VBO.h" />
   </ItemGroup>
@@ -217,6 +218,7 @@
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\transformComponent.cpp" />
     <ClCompile Include="src\vao.cpp" />
     <ClCompile Include="src\vbo.cpp" />
   </ItemGroup>

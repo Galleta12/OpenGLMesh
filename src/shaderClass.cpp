@@ -386,14 +386,20 @@ Shader::Shader(const char *vertexFile, const char *gEOM, const char *fragmentFil
 
 	eyePosLoc = glGetUniformLocation(ID, "u_eye_position");
 	
+	
 	lightPosLoc = glGetUniformLocation(ID, "lightPos");
 
 	
 	lightColorLoc = glGetUniformLocation(ID, "lightColor");
 	
+	
+	lightPosLoc2 = glGetUniformLocation(ID, "lightPos2");
 
 	
+	lightColorLoc2 = glGetUniformLocation(ID, "lightColor2");
+	
 
+	
 
 
 	lightSpecularLoc = glGetUniformLocation(ID, "u_ligh_specular");
@@ -497,6 +503,20 @@ void Shader::set_light_color(float x, float y, float z, float w)
 	glUniform4f(lightColorLoc, x, y, z, w);
 
 }
+
+void Shader::set_light_position2(float x, float y, float z)
+{
+	 glUniform3f(lightPosLoc2, x, y, z);
+
+}
+
+
+void Shader::set_light_color2(float x, float y, float z, float w)
+{
+	glUniform4f(lightColorLoc2, x, y, z, w);
+
+}
+
 
 void Shader::set_light_diffuse(float red, float green, float blue)
 {

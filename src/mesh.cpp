@@ -62,7 +62,23 @@ void Mesh::draw(Shader &shader)
 		drawMeshTex(shader);
 	}
 	
+	//setup modelmatrix
+
+
+	if(entity->hasComponent<TransformComponent>()){
+		//transform component
+		TransformComponent *tra = &entity->getComponent<TransformComponent>();
+		
+		shader.set_model_matrix(tra->getModelMatrix());
+		
+
+	}	
 	
+
+
+
+
+
 
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 

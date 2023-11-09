@@ -29,19 +29,10 @@ class PrimitiveMeshComponent : public Component{
             return tex;
         }
     
-    private:
+    
         
          
-        glm::vec3 scaleFactor;
-        //'XYZ' as pitch, yaw, and roll
-        //is in degrees
-        glm::vec3 eulerAngles;
-
-        glm::quat rotationQuat;
-
-        glm::mat4 modeMatrix;
-
-        glm::vec3 position;
+        
     protected:
         
         std::vector <Texture> tex;

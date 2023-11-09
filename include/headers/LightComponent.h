@@ -7,6 +7,7 @@ class LightComponent : public PrimitiveMeshComponent{
     
     public:
         LightComponent();
-    
+
+
 
 };

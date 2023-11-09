@@ -28,7 +28,7 @@ MeshNoComponent::MeshNoComponent(std::vector<Vertex> &vertices, std::vector<GLui
 	EBO.Unbind();
 }
 
-void MeshNoComponent::Draw(Shader &shader)
+void MeshNoComponent::Draw(Shader &shader,const glm::mat4 &modelMatrix)
 {
 
 	shader.use();
@@ -53,6 +53,9 @@ void MeshNoComponent::Draw(Shader &shader)
 		textures[i].texUnit(shader, (type + num).c_str(), i);
 		textures[i].Bind();
 	}
+
+	shader.set_model_matrix(modelMatrix);
+
 
 	
 	

@@ -24,6 +24,14 @@ uniform sampler2D specular0;
 uniform vec4 lightColor;
 // Gets the position of the light from the main function
 uniform vec3 lightPos;
+
+//for the second light
+// Gets the color of the light from the main function
+uniform vec4 lightColor2;
+// Gets the position of the light from the main function
+uniform vec3 lightPos2;
+
+
 // Gets the position of the camera from the main function
 uniform vec3 u_eye_position;
 
@@ -36,7 +44,7 @@ uniform vec3 u_eye_position;
 vec4 pointLight()
 {
 	// used in two variables so I calculate it here to not have to do it twice
-	vec3 v_s = lightPos - u_eye_position;
+	vec3 v_s = lightPos2 - u_eye_position;
 
 	// intensity of light with respect to distance
 	float dist = length(v_s);
@@ -68,7 +76,7 @@ vec4 pointLight()
 	float phong = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
 	float specular = phong * specularLight;
 
-	return (texture(diffuse0, uv_coordinates_tex) * (lambert * inten + ambient) + texture(specular0, uv_coordinates_tex).r * specular * inten) * lightColor;
+	return (texture(diffuse0, uv_coordinates_tex) * (lambert * inten + ambient) + texture(specular0, uv_coordinates_tex).r * specular * inten) * lightColor2;
 }
 
 
@@ -107,13 +115,44 @@ vec4 spotLight()
 
 }
 
+vec4 spotLight2()
+{
+
+	
+	// controls how big the area that is lit up is
+	float outerCone = 0.90f;
+	float innerCone = 0.95f;
+
+	// ambient lighting
+	float ambient = 0.20f;
+
+	// diffuse lighting
+	vec3 normal = normalize(Normal);
+	vec3 lightDirection = normalize(u_eye_position - position);
+	float diffuse = max(dot(normal, lightDirection), 0.0f);
+
+	// specular lighting
+	float specularLight = 0.50f;
+	vec3 viewDirection = normalize(u_eye_position - position);
+	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+	float specular = specAmount * specularLight;
+
+	// calculates the intensity of the position based on its angle to the center of the light cone
+	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
+	float inten = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
+
+	return (texture(diffuse0, uv_coordinates_tex) * (diffuse * inten + ambient) + texture(specular0, uv_coordinates_tex).r * specular * inten) * lightColor2;
+
+}
+
 
 
 
 void main()
 {
 	//FragColor = pointLight();
-	FragColor = spotLight();
+	FragColor = spotLight() + spotLight2();
 
 }
 

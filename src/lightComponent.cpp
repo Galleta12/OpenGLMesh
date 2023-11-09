@@ -5,7 +5,7 @@ LightComponent::LightComponent()
 :PrimitiveMeshComponent()
 {
 
-    
+   
 
     Vertex lightVertices[] =
     { //     COORDINATES     //

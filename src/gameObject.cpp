@@ -1,9 +1,14 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Manager &mManager, const char *tex, const char *specular)
+GameObject::GameObject(Manager &mManager, const char *tex, const char *specular,
+glm::vec3 pos, glm::vec3 euler, glm::vec3 scale)
 :Entity(mManager)
 {
 
+    
+    
+    SetUpTransform(pos, euler, scale);    
+    
     //add the components
     Entity::addComponent<PlaneComponent>(tex, specular);
     
@@ -26,12 +31,15 @@ GameObject::GameObject(Manager &mManager, const char *tex)
 
 
 }
-
-GameObject::GameObject(Manager &mManager)
+//this means that is a light
+GameObject::GameObject(Manager &mManager,glm::vec3 pos, glm::vec3 euler, glm::vec3 scale)
 :Entity(mManager)
 {
 
+    SetUpTransform(pos, euler, scale);    
     
+    
+
     Entity::addComponent<LightComponent>();
     
     
@@ -53,10 +61,21 @@ GameObject::~GameObject()
 
 void GameObject::update(float deltaTime)
 {
+    
     Entity::update(deltaTime);
 }
 
 void GameObject::draw(Shader &shader)
 {
     Entity::draw(shader);
+}
+
+void GameObject::SetUpTransform(glm::vec3 pos, glm::vec3 euler, glm::vec3 scale)
+{
+
+
+    Entity::addComponent<TransformComponent>(pos, euler, scale);
+
+    transform = &Entity::getComponent<TransformComponent>();
+
 }

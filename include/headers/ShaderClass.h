@@ -50,7 +50,20 @@ public:
     
     void set_light_color(float x, float y, float z, float w);
     
-        
+    
+    
+    void set_light_position2(float x, float y, float z);
+    
+    
+    
+    void set_light_color2(float x, float y, float z, float w);
+    
+
+
+
+
+
+
     void set_light_diffuse(float red, float green, float blue);
         
     void set_material_diffuse(float red, float green, float blue);
@@ -93,8 +106,19 @@ private:
    
     
     GLuint lightColorLoc;
+
+
+    //for the second    
+    GLuint lightPosLoc2;
+   
     
- 
+    GLuint lightColorLoc2;
+
+
+
+
+
+
     
     GLuint lightDiffuseLoc;
     
