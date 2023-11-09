@@ -92,6 +92,8 @@ public:
     void set_num_segments_Tesallator(int numSegments);
     
     void set_line_color_Tesallator(glm::vec4 color);
+    
+    void set_explosion_geo(bool isExplosion);
   
 
 
@@ -116,7 +118,8 @@ private:
 
 
 
-
+    //settin up explo shader on the geo
+    GLuint isExplosionLoc;
 
 
     

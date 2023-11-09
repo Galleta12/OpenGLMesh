@@ -62,6 +62,8 @@ Shader  *bezierShader = nullptr;
 
 
 ModelEntity *modelEntity  = nullptr;
+ModelEntity *modelEntity2  = nullptr;
+ModelEntity *modelEntity3  = nullptr;
 
 
 
@@ -78,6 +80,10 @@ Manager manager;
 
 
 auto &bezierEntity(manager.addEntity());
+auto &bezierEntity2(manager.addEntity());
+auto &bezierEntity3(manager.addEntity());
+auto &bezierEntity4(manager.addEntity());
+auto &bezierEntity5(manager.addEntity());
 
 
 
@@ -153,6 +159,7 @@ void Game::init(const char *title, int posX, int posY, int width, int height, bo
 auto& camerasWorld(manager.getGroup(Game::groupCameras));
 
 auto& meshesWorld(manager.getGroup(Game::groupMeshes));
+auto& meshesWorldNormal(manager.getGroup(Game::groupMeshesNormal));
 auto& lightsWorld(manager.getGroup(Game::groupLights));
 
 
@@ -193,8 +200,34 @@ void Game::update(float deltaTime)
 	}
 	
 
-	BezierCurveComponent *bezier= &bezierEntity.getComponent<BezierCurveComponent>();
-	bezier->setPosBezier(currentTime);
+	// BezierCurveComponent *bezier= &bezierEntity.getComponent<BezierCurveComponent>();
+	// BezierCurveComponent *bezier2= &bezierEntity2.getComponent<BezierCurveComponent>();
+	
+
+	for(auto& m :meshesWorld){
+		
+		
+		if(m->hasComponent<BezierCurveComponent>()){
+			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
+			bezier->setPosBezier(currentTime);
+		
+		}
+	
+	}
+	
+	for(auto& m :meshesWorldNormal){
+		
+		
+		if(m->hasComponent<BezierCurveComponent>()){
+			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
+			bezier->setPosBezier(currentTime);
+		
+		}
+	
+	}
+
+	// bezier->setPosBezier(currentTime);
+	// bezier2->setPosBezier(currentTime);
 
 	// //get the current point of light
 	// TransformComponent *lighTransform = &lightEntity->getComponent<TransformComponent>();
@@ -239,8 +272,20 @@ void Game::display()
 	
 	
 	for(auto& m :meshesWorld){
-		//m->draw(*geomShader);
+	
 		m->draw(*shaderProgram);
+		
+		if(m->hasComponent<BezierCurveComponent>()){
+			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
+			bezier->drawBezier(*bezierShader,camera);
+		
+		}
+	
+	}
+	
+	for(auto& m :meshesWorldNormal){
+		m->draw(*geomShader);
+	
 		
 		if(m->hasComponent<BezierCurveComponent>()){
 			BezierCurveComponent *bezier = &m->getComponent<BezierCurveComponent>();
@@ -259,7 +304,7 @@ void Game::display()
 	
 
 	for(auto& c : camerasWorld){
-        //c->draw(*geomShader);
+        c->draw(*geomShader);
         c->draw(*shaderProgram);
         c->draw(*lightShader2); 
         c->draw(*lightShader); 
@@ -298,6 +343,9 @@ void Game::setUpShaderAndBuffers()
 
 	bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
 
+	geomShader = new Shader("normals.vert", "normals.geom","normals.frag");
+	shaderProgram = new Shader("simple.vert", "simple.geom","simple.frag");
+	
 
 	
 	
@@ -307,11 +355,30 @@ void Game::setUpShaderAndBuffers()
 	bezierControl1,2.0f,5.0f);
 	bezierEntity.addGroup(Game::groupMeshes);
 	
+	//second bezier
+	bezierEntity2.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
+	applyTransformationForNewControlBezier(bezierControl2,glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,45.0f,0.0f),glm::vec3(1.0f,1.0f,1.0f)),
+	3.0f,6.0f);
+	bezierEntity2.addGroup(Game::groupMeshes);
 	
-	geomShader = new Shader("normals.vert", "normals.geom","normals.frag");
-	shaderProgram = new Shader("simple.vert", "simple.geom","simple.frag");
-	
+	//third bezier
+	bezierEntity3.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
+	applyTransformationForNewControlBezier(bezierControl1,glm::vec3(4.0f,0.5f,1.5f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(2.0f,2.0f,2.0f)),
+	2.0f,4.0f);
+	bezierEntity3.addGroup(Game::groupMeshes);
+	//four bezier	
+	bezierEntity4.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
+	applyTransformationForNewControlBezier(bezierControl1,glm::vec3(-1.0f,1.0f,-3.0f),glm::vec3(80.0f,0.0f,30.0f),glm::vec3(3.0f,3.0f,3.0f)),
+	3.0f,6.0f);
+	bezierEntity4.addGroup(Game::groupMeshes);
+	//fift bezier
+	bezierEntity5.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
+	applyTransformationForNewControlBezier(bezierControl1,glm::vec3(3.0f,1.0f,0.0f),glm::vec3(-45.0f,0.0f,0.0f),glm::vec3(1.5f,1.5f,1.5f)),
+	2.0f,6.0f);
+	bezierEntity5.addGroup(Game::groupMeshes);
 
+	
+	
 	
 	
 	floorEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>("planks.png","planksSpec.png",
@@ -329,6 +396,8 @@ void Game::setUpShaderAndBuffers()
 	lightEntity2 = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>(glm::vec3(0.0f, 2.5f, 4.5f),glm::vec3(0.0f,0.0f,0.0f),
 	glm::vec3(1.0f,1.0f,1.0f)));
 	
+	lightEntity2->setUpBezier(bezierEntity2.getComponent<BezierCurveComponent>());
+
     
 
 
@@ -345,12 +414,24 @@ void Game::setUpEntities()
 	//std::string modelPath = "models/wolf_demon_low_poly/scene.gltf";
 	//std::string modelPath = "models/spider/spider.obj";
 	std::string modelPath = "models/airplane/scene.gltf";
+	std::string modelPath2 = "models/spider/spider.obj";
+	std::string modelPath3 = "models/wolf_demon_low_poly/scene.gltf";
 	
 	
 	
 	modelEntity = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath).c_str(),
 	glm::vec3(0.0f,2.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.5f,0.5f,0.5f)));
+	modelEntity->setUpBezier(bezierEntity3.getComponent<BezierCurveComponent>());
 	
+	
+	modelEntity2 = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath2).c_str(),
+	glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,45.0f,0.0f),glm::vec3(0.008f,0.008f,0.008f)));
+	modelEntity2->setUpBezier(bezierEntity4.getComponent<BezierCurveComponent>());
+	
+	
+	modelEntity3 = dynamic_cast<ModelEntity*>(&manager.addEntityClass<ModelEntity>((modelPath3).c_str(),
+	glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,-90.0f,0.0f),glm::vec3(0.3f,0.3f,0.3f),true));
+	modelEntity3->setUpBezier(bezierEntity5.getComponent<BezierCurveComponent>());
 	
 	
 	//purple
@@ -378,6 +459,7 @@ void Game::setLights()
 	shaderProgram->set_light_color(LighColor1);
 	
 	shaderProgram->set_light_color2(LighColor2);
+	
 	
 	
 	

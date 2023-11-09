@@ -5,7 +5,7 @@
 
 
 ModelEntity::ModelEntity(Manager &mManger, const char *file,
-glm::vec3 pos, glm::vec3 euler, glm::vec3 scale
+glm::vec3 pos, glm::vec3 euler, glm::vec3 scale,bool geoNormal
 )
 :Entity(mManger)
 {
@@ -17,7 +17,13 @@ glm::vec3 pos, glm::vec3 euler, glm::vec3 scale
 
 
     mFile = file;
-    Entity::addGroup(Game::groupMeshes);   
+    if(geoNormal){
+        Entity::addGroup(Game::groupMeshesNormal);   
+
+    }else{
+
+        Entity::addGroup(Game::groupMeshes);   
+    }
     LoadModel();
 }
 
@@ -28,6 +34,13 @@ ModelEntity::~ModelEntity()
 
 void ModelEntity::update(float deltaTime)
 {
+    if(hasBezier){
+
+        //set the new position in the transform
+        transform->setPosition(bezier->getBezierPos());    
+        
+    }
+    
     Entity::update(deltaTime);
 
 }
@@ -43,6 +56,19 @@ void ModelEntity::draw(Shader &shader)
 		mMeshesList[i].MeshNoComponent::Draw(shader,transform->getModelMatrix());
 	}
 
+
+}
+
+void ModelEntity::setUpBezier(BezierCurveComponent &curveBezier)
+{
+    hasBezier = true;
+    //save the bezier entity
+    bezier = &curveBezier;
+}
+
+void ModelEntity::setExplosionGeo(Shader &shader,bool isExplision)
+{
+    shader.set_explosion_geo(isExplision);
 
 }
 

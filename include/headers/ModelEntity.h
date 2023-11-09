@@ -13,14 +13,17 @@ class ModelEntity : public Entity{
 
     public:
         ModelEntity(Manager &mManger, const char* file,
-        glm::vec3 pos, glm::vec3 euler, glm::vec3 scale);
+        glm::vec3 pos, glm::vec3 euler, glm::vec3 scale, bool geoNormal=false);
         ~ModelEntity();
 
 		void update(float deltaTime) override;
         void draw(Shader &shader) override;
-        
+        void setUpBezier(BezierCurveComponent &curveBezier);
+
+        void setExplosionGeo(Shader &shader,bool isExplision);
     private:
-        
+        bool hasBezier = false;
+        BezierCurveComponent *bezier = nullptr;
         void LoadModel();
 
 

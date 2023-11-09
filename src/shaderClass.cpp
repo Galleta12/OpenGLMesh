@@ -399,7 +399,7 @@ Shader::Shader(const char *vertexFile, const char *gEOM, const char *fragmentFil
 	lightColorLoc2 = glGetUniformLocation(ID, "lightColor2");
 	
 
-	
+	isExplosionLoc = glGetUniformLocation(ID, "isExplosion");
 
 
 	lightSpecularLoc = glGetUniformLocation(ID, "u_ligh_specular");
@@ -581,4 +581,11 @@ void Shader::set_line_color_Tesallator(glm::vec4 color)
 
     glUniform4f(lineColorLoc, color.x, color.y, color.z, color.w);
 
+}
+
+void Shader::set_explosion_geo(bool isExplosion)
+{
+
+	
+	glUniform1i(isExplosionLoc,1);
 }

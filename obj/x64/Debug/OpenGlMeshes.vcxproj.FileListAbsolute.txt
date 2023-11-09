@@ -1,5 +1,0 @@
-D:\HR-Second=Semester=2023\Computer Graphics\programmingAssigment5\OpenGLMesh\bin\Debug\x86_64\assimp-vc143-mtd.dll
-D:\HR-Second=Semester=2023\Computer Graphics\programmingAssigment5\OpenGLMesh\bin\Debug\x86_64\minizip.dll
-D:\HR-Second=Semester=2023\Computer Graphics\programmingAssigment5\OpenGLMesh\bin\Debug\x86_64\zlibd1.dll
-D:\HR-Second=Semester=2023\Computer Graphics\programmingAssigment5\OpenGLMesh\bin\Debug\x86_64\pugixml.dll
-D:\HR-Second=Semester=2023\Computer Graphics\programmingAssigment5\OpenGLMesh\obj\x64\Debug\OpenGlMeshes.vcxproj.CopyComplete
