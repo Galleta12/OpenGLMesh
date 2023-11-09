@@ -10,7 +10,7 @@
 #include "Components.h"
 #include "ShaderClass.h"
 #include "IncludesForMath.h"
-
+#include <algorithm> 
 
 class BezierCurveComponent : public Component{
 
@@ -38,6 +38,7 @@ class BezierCurveComponent : public Component{
 
 
 
+
         glm::vec3 getCurrentPos(float currentTime,const glm::vec3 currentPos);
 
     private:
@@ -55,6 +56,11 @@ class BezierCurveComponent : public Component{
         void setLineColor(Shader& shader);
 
         void setWorldViewProj(Shader& shader,const CameraComponent &cameraComponent);
+
+
+        void reverseControl();
+
+        void setNewStartAndEndPoint();
 
 		VAO mVAO;
 

@@ -96,7 +96,16 @@ glm::vec3 BezierCurveComponent::getCurrentPos(float currentTime, const glm::vec3
     }
     
     else if(currentTime > mEndTime){
-        return  controlPointList[3];           
+        
+        
+        glm::vec3 lastPoint = controlPointList[3]; 
+        //we reverse it
+        reverseControl();
+
+        //set new start and end point
+        setNewStartAndEndPoint();
+        return  lastPoint;
+                   
     }
 
     float t = (currentTime - mStartTime) / (mEndTime - mStartTime);
@@ -167,5 +176,26 @@ void BezierCurveComponent::setWorldViewProj(Shader& shader,const CameraComponent
     shader.set_view_matrix(cameraComponent.viewMatrix);
     
     shader.set_projection_matrix(cameraComponent.projectionMatrix);
+
+}
+
+void BezierCurveComponent::reverseControl()
+{
+    std::reverse(controlPointList.begin(), controlPointList.end());
+
+}
+
+void BezierCurveComponent::setNewStartAndEndPoint()
+{
+
+    float difference = mEndTime - mStartTime; 
+
+    float newStart = mEndTime + 1.0f;
+    mStartTime = newStart;
+
+    float newEnd = mStartTime + difference;
+
+    mEndTime = newEnd; 
+
 
 }
