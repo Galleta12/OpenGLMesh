@@ -51,8 +51,12 @@ class Game{
 
     private:
 
+        
+        
+        float currentTime = 0.0f;
+        bool firstFrame = true;
 
-       
+
         void setUpShaderAndBuffers();
         void setUpEntities();
         void drawFirstViewPort(float deltaTime);

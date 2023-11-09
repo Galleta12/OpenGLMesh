@@ -1,11 +1,12 @@
 #include "BezierCurveComponent.h"
 
 BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments,
-std::vector<glm::vec3>& controlPoints)
+std::vector<glm::vec3>& controlPoints, float startTime, float endTime)
 {
 
     
-    
+    BezierCurveComponent::mStartTime = startTime;
+    BezierCurveComponent::mEndTime = endTime;
     
     mColor = color;
     m_numSegments = numSegments;
@@ -82,6 +83,43 @@ void BezierCurveComponent::drawBezier(Shader& shader,const CameraComponent &came
 
     
 
+}
+
+glm::vec3 BezierCurveComponent::getCurrentPos(float currentTime, const glm::vec3 currentPos)
+{
+    
+    //if we are not withing the start and endtime
+    //we start from the beginning
+    
+    if(currentTime < mStartTime){
+        return  controlPointList[0];     
+    }
+    
+    else if(currentTime > mEndTime){
+        return  controlPointList[3];           
+    }
+
+    float t = (currentTime - mStartTime) / (mEndTime - mStartTime);
+
+    
+    //bezier cubic interpolation
+    glm::vec3 p0 = controlPointList[0];
+    glm::vec3 p1 = controlPointList[1];
+    glm::vec3 p2 = controlPointList[2];
+    glm::vec3 p3 = controlPointList[3];
+
+    float t1 = 1.0f - t;
+    float t2 = t * t;
+
+    float b3 = t2 * t;
+    float b2 = 3.0f * t2 * t1;
+    float b1 = 3.0f * t * t1 * t1;
+    float b0 = t1 * t1 * t1;
+
+    glm::vec3 result = p0 * b0 + p1 * b1 + p2 * b2 + p3 * b3;
+
+
+    return result;
 }
 
 void BezierCurveComponent::renderPointTS(int topology_type)

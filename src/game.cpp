@@ -184,9 +184,31 @@ void Game::update(float deltaTime)
 {
 
     
+	if(firstFrame){
+		currentTime = 0.0f;
+		firstFrame = false;
+	
+	}else{
+		currentTime += deltaTime;
+	}
+	
+
+	BezierCurveComponent *bezier= &bezierEntity.getComponent<BezierCurveComponent>();
+	
+
+	//get the current point of light
+	TransformComponent *lighTransform = &lightEntity->getComponent<TransformComponent>();
+	
+	
+
+	lighTransform->setPosition(bezier->getCurrentPos(currentTime,lighTransform->getPosition()));
+
+
+
 	manager.refresh();
     manager.update(deltaTime);
 	
+
 
 }
 
@@ -304,7 +326,7 @@ void Game::setUpShaderAndBuffers()
 	
 	//add bezier for testing
 	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
-	bezierControl1);
+	bezierControl1,2.0f,5.0f);
 	bezierEntity.addGroup(Game::groupMeshes);
 
 

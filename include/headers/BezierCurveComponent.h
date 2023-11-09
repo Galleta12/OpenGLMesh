@@ -16,7 +16,7 @@ class BezierCurveComponent : public Component{
 
     public:
         BezierCurveComponent(glm::vec4 color, int numSegments,
-        std::vector<glm::vec3>& controlPoints);
+        std::vector<glm::vec3>& controlPoints, float startTime, float endTime);
 
 
         void update(float deltaTime) override;
@@ -29,8 +29,23 @@ class BezierCurveComponent : public Component{
             return mExist;
         }
 
+        float getStartTime(){
+            return mStartTime;
+        }
+        float getEndTime(){
+            return mEndTime;
+        }
+
+
+
+        glm::vec3 getCurrentPos(float currentTime,const glm::vec3 currentPos);
+
     private:
 
+        
+        float mStartTime;
+        float mEndTime;
+        
         bool mExist = false;
         
         void renderPointTS(int topology_type);

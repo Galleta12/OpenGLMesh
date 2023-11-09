@@ -25,9 +25,9 @@ class TransformComponent : public Component
         void setScaleFactor(const glm::vec3& scale) { scaleFactor = scale; }
         void setEulerAngles(const glm::vec3& angles) { eulerAngles = angles; }
 
-        void applyTRS(float deltaTime);
 
     private:
+        void applyTRS(float deltaTime);
         
         void setUpRotationQuaterion(float deltaTime);
 
