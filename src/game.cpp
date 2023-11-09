@@ -52,16 +52,17 @@ Shader *shaderProgram = nullptr;
 
 Shader *geomShader = nullptr;
 
+
 Shader  *lightShader = nullptr;
+Shader  *lightShader2 = nullptr;
+
 
 Shader  *bezierShader = nullptr;
 
 ModelEntity *modelEntity  = nullptr;
-//Model *model = nullptr;
 
 
 
-//Camera *mainCamera = nullptr;
 
 MainCamera *mainCamera = nullptr;
 
@@ -70,12 +71,6 @@ GameObject *lightEntity = nullptr;
 GameObject *lightEntity2 = nullptr;
 
 GameObject *floorEntity = nullptr;
-
-//Model *modelEntity = nullptr;
-
-
-//Mesh *floorEntity = nullptr;
-//Mesh *lightEntity = nullptr;
 
 Manager manager;
 
@@ -234,24 +229,23 @@ void Game::display()
 
 	for(auto& l :lightsWorld){
 		l->draw(*lightShader);
+		l->draw(*lightShader2);
 	}
-
+	
+	
 
 	for(auto& c : camerasWorld){
         //c->draw(*geomShader);
         c->draw(*shaderProgram);
-    }
-	
-	
-	
-	for(auto& c : camerasWorld){
+        c->draw(*lightShader2); 
         c->draw(*lightShader); 
-    }
+
+	}
 	
-    
-	for(auto& c : camerasWorld){
-        c->draw(*bezierShader); 
-    }
+	
+	
+	
+	
 
 
 
@@ -290,6 +284,7 @@ void Game::setUpShaderAndBuffers()
 	glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(5.0f,1.0f,5.0f)));
 
 	lightShader = new Shader("light.vert", "light.frag");
+	lightShader2 = new Shader("light.vert", "light.frag");
 	
 	
 	lightEntity = dynamic_cast<GameObject*>(&manager.addEntityClass<GameObject>(glm::vec3(0.5f, 0.5f, 0.5f),glm::vec3(0.0f,0.0f,0.0f),
@@ -360,7 +355,11 @@ void Game::setLights()
 	//for the light shader we dont have two differnt lights
 	//is one per object in the shader
 	lightShader->set_light_color(LighColor1);
-	lightShader->set_light_color(LighColor2);
+	
+	lightShader2->use();
+	//for the light shader we dont have two differnt lights
+	//is one per object in the shader
+	lightShader2->set_light_color(LighColor2);
 	
 	
 

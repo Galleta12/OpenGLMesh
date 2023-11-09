@@ -70,7 +70,6 @@ void Mesh::draw(Shader &shader)
 		TransformComponent *tra = &entity->getComponent<TransformComponent>();
 		
 		shader.set_model_matrix(tra->getModelMatrix());
-		
 
 	}	
 	

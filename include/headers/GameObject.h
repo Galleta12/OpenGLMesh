@@ -20,8 +20,9 @@ public:
     GameObject(Manager& mManager, const char* tex, const char* specular,
     glm::vec3 pos, glm::vec3 euler, glm::vec3 scale
     );
-    GameObject(Manager& mManager, const char* tex);
-    GameObject(Manager& mManager,glm::vec3 pos, glm::vec3 euler, glm::vec3 scale);
+    
+    GameObject(Manager& mManager,glm::vec3 pos, glm::vec3 euler, 
+    glm::vec3 scale);
 
     ~GameObject();
 

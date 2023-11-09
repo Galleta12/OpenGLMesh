@@ -12,7 +12,7 @@ class TransformComponent : public Component
         void update(float deltaTime) override;
         void draw(Shader &shader) override;
 
-
+        glm::vec4 colorLight;
         // Getters for position, scaleFactor, and eulerAngles
         const glm::vec3& getPosition() const { return position; }
         const glm::vec3& getScaleFactor() const { return scaleFactor; }

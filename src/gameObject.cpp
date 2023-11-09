@@ -25,19 +25,14 @@ glm::vec3 pos, glm::vec3 euler, glm::vec3 scale)
 
 }
 
-GameObject::GameObject(Manager &mManager, const char *tex)
-:Entity(mManager)
-{
 
-
-}
 //this means that is a light
-GameObject::GameObject(Manager &mManager,glm::vec3 pos, glm::vec3 euler, glm::vec3 scale)
+GameObject::GameObject(Manager &mManager,glm::vec3 pos, glm::vec3 euler, 
+glm::vec3 scale)
 :Entity(mManager)
 {
 
     SetUpTransform(pos, euler, scale);    
-    
     
 
     Entity::addComponent<LightComponent>();
