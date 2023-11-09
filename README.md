@@ -53,5 +53,8 @@ The project is still using a ECS system, however this ECS is  not the best, sinc
 The shaders are on the src/shaders there is all the source code of the shaders that I am using
 
 
+
+![image](https://github.com/Galleta12/OpenGLMesh/assets/79543944/3064b0c9-13e1-451e-890a-0f5699a090be)
+
  
  
