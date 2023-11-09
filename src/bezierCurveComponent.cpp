@@ -1,6 +1,7 @@
 #include "BezierCurveComponent.h"
 
-BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments)
+BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments,
+std::vector<glm::vec3>& controlPoints)
 {
 
     
@@ -12,18 +13,25 @@ BezierCurveComponent::BezierCurveComponent(glm::vec4 color, int numSegments)
     //set it up as exist
     mExist = true;    
 
-    
+    //initial control points
     Vertex vertices[] =
     { //               COORDINATES          
-        Vertex{glm::vec3(-0.95f, -0.95f,  0.0f)},
-        Vertex{glm::vec3(0.0f, 0.0f,    0.0f)},
-        Vertex{glm::vec3(0.0f, 0.0f,    0.0f)},
-        Vertex{glm::vec3(0.0f, 0.0f,  -0.95f)}
+        Vertex{controlPoints[0]},
+        Vertex{controlPoints[1]},
+        Vertex{controlPoints[2]},
+        Vertex{controlPoints[3]}
     };
     
-  
+    // Vertex vertices[] =
+    // { //               COORDINATES          
+    //     Vertex{glm::vec3(-0.95f, -0.95f,  0.0f)},
+    //     Vertex{glm::vec3(0.0f, 0.0f,    0.0f)},
+    //     Vertex{glm::vec3(0.0f, 0.0f,    0.0f)},
+    //     Vertex{glm::vec3(0.0f, 0.0f,  -0.95f)}
+    // };
     
-    
+    //saved on the vector list
+    controlPointList = controlPoints;
     std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
     //vao
     mVAO.Bind();
@@ -105,18 +113,18 @@ void BezierCurveComponent::setWorldViewProj(Shader& shader,const CameraComponent
 {
     
     
-    glm::mat4 translation = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
+    //glm::mat4 translation = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
 
     // Create a quaternion for the rotation (90 degrees around the y-axis)
-    glm::quat rotation = glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    //glm::quat rotation = glm::angleAxis(glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
     // Convert the quaternion to a rotation matrix
-    glm::mat4 rotationMatrix = glm::mat4_cast(rotation);
+    //glm::mat4 rotationMatrix = glm::mat4_cast(rotation);
 
     // Combine the translation and rotation matrices
-    glm::mat4 TRS = translation * rotationMatrix;
+    //glm::mat4 TRS = translation * rotationMatrix;
     
-    shader.set_model_matrix(TRS);    
+    shader.set_model_matrix(model);    
     
     shader.set_view_matrix(cameraComponent.viewMatrix);
     

@@ -57,6 +57,7 @@
     <ClInclude Include="include\headers\PlaneComponent.h" />
     <ClInclude Include="include\headers\GameObject.h" />
     <ClInclude Include="include\headers\TransformComponent.h" />
+    <ClInclude Include="include\headers\ControlPointsVertices.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">

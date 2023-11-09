@@ -4,7 +4,7 @@
 
 
 namespace fs = std::experimental::filesystem;
-//------------------------------
+
 
 #include <assimp/Importer.hpp>      
 #include <assimp/scene.h>       
@@ -24,7 +24,7 @@ namespace fs = std::experimental::filesystem;
 #include "Mesh.h"
 #include "MainCamera.h"
 #include "GameObject.h"
-
+#include "ControlPointsVertices.h"
 
 
 //white
@@ -54,10 +54,12 @@ Shader *geomShader = nullptr;
 
 
 Shader  *lightShader = nullptr;
+
 Shader  *lightShader2 = nullptr;
 
 
 Shader  *bezierShader = nullptr;
+
 
 ModelEntity *modelEntity  = nullptr;
 
@@ -297,8 +299,12 @@ void Game::setUpShaderAndBuffers()
 	bezierShader = new Shader("bezier.vert","bezier.tcs","bezier.tes","bezier.frag");
 
 
+	
+	
+	
 	//add bezier for testing
-	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50);
+	bezierEntity.addComponent<BezierCurveComponent>(glm::vec4(1.0f, 1.0f, 0.5f, 1.0f),50,
+	bezierControl1);
 	bezierEntity.addGroup(Game::groupMeshes);
 
 
@@ -354,12 +360,12 @@ void Game::setLights()
 	lightShader->use();
 	//for the light shader we dont have two differnt lights
 	//is one per object in the shader
-	lightShader->set_light_color(LighColor1);
+	lightShader->set_light_color(LighColor2);
 	
 	lightShader2->use();
 	//for the light shader we dont have two differnt lights
 	//is one per object in the shader
-	lightShader2->set_light_color(LighColor2);
+	lightShader2->set_light_color(LighColor1);
 	
 	
 

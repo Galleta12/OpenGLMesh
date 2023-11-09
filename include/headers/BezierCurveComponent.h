@@ -15,7 +15,8 @@
 class BezierCurveComponent : public Component{
 
     public:
-        BezierCurveComponent(glm::vec4 color, int numSegments);
+        BezierCurveComponent(glm::vec4 color, int numSegments,
+        std::vector<glm::vec3>& controlPoints);
 
 
         void update(float deltaTime) override;
@@ -42,12 +43,13 @@ class BezierCurveComponent : public Component{
 
 		VAO mVAO;
 
-        
-
+    
         int m_numSegments = 50;
 
         glm::vec4 mColor;
 
         glm::mat4 model = glm::mat4(1.0f);
 
+
+        std::vector<glm::vec3> controlPointList;
 };

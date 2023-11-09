@@ -128,7 +128,7 @@ vec4 spotLight2()
 
 	// diffuse lighting
 	vec3 normal = normalize(Normal);
-	vec3 lightDirection = normalize(u_eye_position - position);
+	vec3 lightDirection = normalize(lightPos2 - position);
 	float diffuse = max(dot(normal, lightDirection), 0.0f);
 
 	// specular lighting

@@ -181,6 +181,7 @@
     <ClInclude Include="include\headers\BezierCurveComponent.h" />
     <ClInclude Include="include\headers\CameraComponent.h" />
     <ClInclude Include="include\headers\Components.h" />
+    <ClInclude Include="include\headers\ControlPointsVertices.h" />
     <ClInclude Include="include\headers\EBO.h" />
     <ClInclude Include="include\headers\ECS.h" />
     <ClInclude Include="include\headers\Game.h" />
