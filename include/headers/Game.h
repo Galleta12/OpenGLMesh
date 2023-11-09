@@ -14,7 +14,6 @@ class Game{
         {
            
             groupCameras,
-            groupCameraFollow,
             groupMeshes,
             groupMeshesNormal,
             groupLights,
@@ -68,6 +67,8 @@ class Game{
         void setThirCam();
 
         void updateCams();
+
+        void updateFolloCam();
 
 
 };

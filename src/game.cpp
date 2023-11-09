@@ -89,7 +89,7 @@ auto &bezierEntity5(manager.addEntity());
 
 //entities for the camera
 auto &lookCamEntity(manager.addEntity());
-//auto &folloCamEntity(manager.addEntity());
+auto &folloCamEntity(manager.addEntity());
 
 
 
@@ -165,7 +165,7 @@ auto& meshesWorld(manager.getGroup(Game::groupMeshes));
 auto& meshesWorldNormal(manager.getGroup(Game::groupMeshesNormal));
 auto& lightsWorld(manager.getGroup(Game::groupLights));
 
-auto& followCameraWorld(manager.getGroup(Game::groupCameraFollow));
+
 
 
 void Game::handleEvents()
@@ -176,7 +176,7 @@ void Game::handleEvents()
 	
 	CameraComponent *cam2 = &lookCamEntity.getComponent<CameraComponent>();
 	
-	// CameraComponent cam3 = folloCamEntity.getComponent<CameraComponent>();
+	CameraComponent *cam3 = &folloCamEntity.getComponent<CameraComponent>();
 
     //ppointet ro the orthocamera
     if(glfwWindowShouldClose(window)){
@@ -187,7 +187,7 @@ void Game::handleEvents()
 		
 		cameraViewState = WhoISCamera::MAINCAMERA;
 		cam2->shouldDraw = false;
-		
+		cam3->shouldDraw = false;	
 		// // cam3.shouldDraw = false;
 		
 		mainCamera->getCameraComponent()->shouldDraw = true;
@@ -203,8 +203,8 @@ void Game::handleEvents()
 		cameraViewState = WhoISCamera::LOOKCAM;
 		
 		mainCamera->getCameraComponent()->shouldDraw = false;
+		cam3->shouldDraw = false;
 		
-		// // cam3.shouldDraw = false;
 		
 		cam2->shouldDraw=true;
 		
@@ -213,15 +213,16 @@ void Game::handleEvents()
 	
 	else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS){
 		
-		//cam1->shouldDraw = false;
-		
-		// cam2.shouldDraw = false;
-		
-		// cam3.shouldDraw=true;
-		
-		
-		
 		cameraViewState = WhoISCamera::FOLLOWCAM;
+		mainCamera->getCameraComponent()->shouldDraw = false;
+		cam2->shouldDraw=false;
+		
+		cam3->shouldDraw = true;
+		
+		
+		
+		
+		
 		
 	}
 
@@ -310,6 +311,7 @@ void Game::display()
 	
 	CameraComponent *camera =  mainCamera->getCameraComponent();
 	CameraComponent *camera2 =  &lookCamEntity.getComponent<CameraComponent>();
+	CameraComponent *camera3 =  &folloCamEntity.getComponent<CameraComponent>();
 	// if(	cameraViewState = WhoISCamera::MAINCAMERA){
 	// 	camera = mainCamera->getCameraComponent();
 	// }
@@ -343,6 +345,12 @@ void Game::display()
 				bezier->drawBezier(*bezierShader,*camera);
 
 			}
+
+
+			else if(cameraViewState == FOLLOWCAM){
+				bezier->drawBezier(*bezierShader,*camera3);
+
+			}
 		
 		
 		}
@@ -359,8 +367,12 @@ void Game::display()
 
 				bezier->drawBezier(*bezierShader,*camera2);
 			}
-			else{
+			else if(cameraViewState == MAINCAMERA){
 				bezier->drawBezier(*bezierShader,*camera);
+
+			}
+			else if(cameraViewState == FOLLOWCAM){
+				bezier->drawBezier(*bezierShader,*camera3);
 
 			}
 		
@@ -589,7 +601,7 @@ void Game::setSecondCam()
 	float aspect =  static_cast<float>(Game::Width / Game::Height);
     
     
-	camera->zoom = glm::radians(90.0f);
+	camera->zoom = glm::radians(130.0f);
     
     camera->setPerspectiveProjection(camera->zoom,aspect, 0.1f,100.0f);
 
@@ -600,6 +612,42 @@ void Game::setSecondCam()
 
 void Game::setThirCam()
 {
+
+	
+	//get oist
+
+	
+	glm::vec3 airPlanePos = modelEntity->getComponent<TransformComponent>().getPosition();
+	
+	
+	
+	
+	folloCamEntity.addComponent<CameraComponent>(airPlanePos);
+
+
+	CameraComponent *camera = &folloCamEntity.getComponent<CameraComponent>();
+
+	camera->shouldDraw = false;
+
+	//direction to the model dog
+	const TransformComponent *model = &modelEntity3->getComponent<TransformComponent>();
+
+	//glm::vec3 newDir = light->getPosition() - camera.Position;
+
+	camera->setLooKViewCamera(camera->Position,model->getPosition(),camera->Up);
+	
+	float aspect =  static_cast<float>(Game::Width / Game::Height);
+    
+    
+	camera->zoom = glm::radians(90.0f);
+    
+    camera->setPerspectiveProjection(camera->zoom,aspect, 0.1f,100.0f);
+
+
+    folloCamEntity.addGroup(Game::groupCameras);
+
+
+
 }
 
 void Game::updateCams()
@@ -617,6 +665,36 @@ void Game::updateCams()
 	float aspect =  static_cast<float>(Game::Width / Game::Height);
     
    	camera->setPerspectiveProjection(camera->zoom,aspect, 0.1f,100.0f);
+
+	updateFolloCam();
+
+}
+
+void Game::updateFolloCam()
+{
+
+	CameraComponent *camera = &folloCamEntity.getComponent<CameraComponent>();
+
+	
+	glm::vec3 airPlanePos = modelEntity->getComponent<TransformComponent>().getPosition();
+	//set new post
+	
+
+	//direction to the model dog
+	const TransformComponent *model = &modelEntity3->getComponent<TransformComponent>();
+
+	
+	//glm::vec3 newDir = light->getPosition() - camera.Position;
+
+	camera->setLooKViewCamera(airPlanePos,model->getPosition(),camera->Up);
+	
+	float aspect =  static_cast<float>(Game::Width / Game::Height);
+    
+    
+	camera->zoom = glm::radians(90.0f);
+    
+    camera->setPerspectiveProjection(camera->zoom,aspect, 0.1f,100.0f);
+
 
 
 
